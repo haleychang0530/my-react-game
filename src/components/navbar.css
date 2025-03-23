@@ -44,7 +44,7 @@
 
 /* try to make logo stay unchange, but chatgpt and i failed, the code below is usless*/
 .navbar .logo img {
-  width: 50px !important;  /* 設定 logo 寬度 */
+  width: 200px !important;  /* 設定 logo 寬度 */
   height: auto;
 }
 

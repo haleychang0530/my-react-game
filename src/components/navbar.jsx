@@ -1,14 +1,15 @@
 // src/components/Navbar.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../assets/logo.jpg';
 import './navbar.css';
 
 const Navbar = () => {
   return (
     <nav className="navbar">
       <ul>
-        <li className="logo">
-          <img src="path-to-your-logo.png" alt="Logo" />
+      <li className="logo">
+          <img src={logo} alt="Logo" />
         </li>
           <li><Link to="/home">首頁🐣</Link></li>
           <li><Link to="/ranking">排行榜🪽</Link></li>
