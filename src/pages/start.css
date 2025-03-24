@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.start-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: white;
+  text-align: center;
+}
+
+.logo {
+  width: 800px; /* 根據你的 logo 大小調整 */
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.start-button {
+  width: 200px; /* 根據你的按鈕大小調整 */
+  height: auto;
+  cursor: pointer;
+  margin-top: 40px;
+  image-rendering: pixelated;
+  animation: blink 1s infinite alternate, bounce 0.5s infinite alternate;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
+}

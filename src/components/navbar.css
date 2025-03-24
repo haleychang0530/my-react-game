@@ -5,27 +5,52 @@
 }
 
 .navbar {
-  background-color: #FFF0AC;
+  background-color: white;
   color: black;
   padding: 30px;
   display: flex;
-  justify-content: space-between; /* 讓 logo 和其他項目分開 */
   align-items: center;
 }
 
+.logo img {
+  max-width: 100%;
+  height: auto;
+}
 
 .navbar ul {
   list-style: none;
-  padding: 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  flex-grow: 1;  /* 確保 ul 佔滿剩餘空間 */
+  flex-grow: 1; /* 確保 ul 佔滿剩餘空間 */
 }
 
 .navbar ul li {
-  padding: 10px 20px;  /* 設定正常狀態下的 padding */
- transition: all 0.3s ease;  /* 增加過渡效果，使懸停過程更平滑 */
+  padding: 10px 20px;
+  transition: all 0.3s ease; /* 平滑變化 */
+}
+
+/* 讓 logo 維持固定大小，不受 hover 影響 */
+.navbar .logo {
+  flex-shrink: 0; /* 不讓它被壓縮 */
+  margin-right: auto;
+  padding: 0; /* 避免 hover 影響 */
+  width: 200px; /* 設定 logo 固定寬度 */
+  height: auto;
+}
+
+.navbar .logo img {
+  width: 100%; /* 保證圖片填滿 logo 的寬度 */
+  height: auto;
+  display: block;
+}
+
+/* 只讓其他選單項目變大，避免影響 logo */
+.navbar ul li:not(.logo):hover {
+  background-color: #FFF0AC;
+  border-radius: 10px;
+  transform: scale(1.1); /* 讓 hover 只影響其他按鈕 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 增加陰影效果 */
 }
 
 .navbar ul li a {
@@ -33,21 +58,4 @@
   text-decoration: none;
   font-size: 20px;
   line-height: 1.5;
-}
-
-.navbar ul li:hover {
-  background-color: white;
-  border-radius: 10px;  /* 圓角效果 */
-  font-size: 18px;  /* 增加文字大小 */
-  transform: scale(1.1);  /* 放大 1.1 倍 */
-}
-
-/* try to make logo stay unchange, but chatgpt and i failed, the code below is usless*/
-.navbar .logo img {
-  width: 200px !important;  /* 設定 logo 寬度 */
-  height: auto;
-}
-
-.navbar .logo {
-  flex-grow: 0 !important;  /* 確保 logo 不會被拉伸 */
 }
