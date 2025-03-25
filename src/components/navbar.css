@@ -47,7 +47,7 @@
 
 /* 只讓其他選單項目變大，避免影響 logo */
 .navbar ul li:not(.logo):hover {
-  background-color: #FFF0AC;
+  background-color: #ff981f;
   border-radius: 10px;
   transform: scale(1.1); /* 讓 hover 只影響其他按鈕 */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 增加陰影效果 */

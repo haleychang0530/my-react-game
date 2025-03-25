@@ -1,34 +1,45 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./login.css"; // 這裡連結像素風 CSS
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();  
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = () => {
-    // 這裡會與後端進行驗證
-    // 假設成功登入後跳轉至 home 頁面
-    navigate('/home');  
+  const handleLogin = async () => {
+    if (username === "test" && password === "1234") {
+      navigate("/home");
+    } else {
+      setError("❌ Wrong username or password!");
+    }
   };
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="pixel-container">
+      <h1 className="pixel-title">LOGIN🍳</h1>
       <input
         type="text"
-        placeholder="Username"
+        className="pixel-input"
+        placeholder="USERNAME"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
       <input
         type="password"
-        placeholder="Password"
+        className="pixel-input"
+        placeholder="PASSWORD"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button onClick={handleLogin}>Login</button>
-      <button onClick={() => navigate('/register')}>Register</button>
+      {error && <p className="pixel-error">{error}</p>}
+      <button className="pixel-button" onClick={handleLogin}>
+        LOGIN
+      </button>
+      <button className="pixel-button" onClick={() => navigate("/register")}>
+        REGISTER
+      </button>
     </div>
   );
 };
