@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './start.css';
+import "./css/start.css";
 import logo from '../assets/logo_new.jpg'; 
 import startButton from '../assets/start_button.jpg'; // 確保圖片路徑正確
 
