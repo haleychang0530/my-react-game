@@ -6,14 +6,14 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: white; /* 深色背景 */
+  background-color: white; 
 }
 
 .pixel-title {
   font-family: "Press Start 2P", cursive;
   color: #ffca54;
   font-size: 24px;
-  text-shadow: 3px 3px #ff981f; /* 霓虹燈效果 */
+  text-shadow: 3px 3px #ff981f; 
   margin-bottom: 20px;
 }
 

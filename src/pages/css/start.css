@@ -11,7 +11,7 @@
 }
 
 .logo {
-  width: 800px; /* 根據你的 logo 大小調整 */
+  width: 800px; /*logo大小*/
   animation: float 3s ease-in-out infinite;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .start-button {
-  width: 200px; /* 根據你的按鈕大小調整 */
+  width: 200px; /*按鈕大小*/
   height: auto;
   cursor: pointer;
   margin-top: 40px;

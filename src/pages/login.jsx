@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./css/login.css";  // 確保是正確的相對路徑
- // 這裡連結像素風 CSS
+import "./css/login.css"; 
 
 const Login = () => {
   const [username, setUsername] = useState("");

@@ -17,7 +17,11 @@
   .pixel-border {
     border-radius: 8px;
     padding: 20px;
+    margin-top: -200px;/* 上移 */
     background-color: #333333;
+    min-width: 500px; 
+    max-width: 90%; /* 防止太大 */
+    min-height: 300px;
   }
   
   /* 標題樣式 */
@@ -29,23 +33,23 @@
   
   /* 顯示文本樣式 */
   .pixel-font {
-    font-size: 18px;
+    font-size: 15px;
     
   }
   
   .text-yellow-300 {
-    color: #ffefa4; /* 黃色 */
+    color: #ffefa4; 
   }
   
   .text-blue-300 {
-    color: #ffefa4; /* 藍色 */
+    color: #ffefa4; 
   }
   
   .text-green-300 {
-    color: #ffefa4; /* 綠色 */
+    color: #ffefa4; 
   }
   
-  /* 圖片設置 */
+ 
   img {
     border-radius: 8px;
     width: 200px;
@@ -54,22 +58,23 @@
     margin: 20px auto;
   }
   
-  /* 按鈕樣式 */
   .pixel-button {
-    font-size: 18px;
+    font-size: 14px;
     color: white;
-    background-color: #ff6600; /* 按鈕顏色 */
+    background-color: #ff6600; 
     border: 2px solid #f0f0f0;
-    padding: 10px 20px;
+    padding: 5px 5px;
     border-radius: 8px;
     cursor: pointer;
+    display: block;
+    margin: 0 auto;
     text-transform: uppercase;
     transition: background-color 0.3s ease, transform 0.3s ease;
   }
   
   .pixel-button:hover {
-    background-color: #ff9933; /* 滑鼠 hover 時顏色 */
-    transform: scale(1.1); /* 按鈕放大效果 */
+    background-color: #ff9933; 
+    transform: scale(1.1);
   }
   
   /* 顯示欄位的間距 */

@@ -50,7 +50,7 @@
   background-color: #ff981f;
   border-radius: 10px;
   transform: scale(1.1); /* 讓 hover 只影響其他按鈕 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 增加陰影效果 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 陰影效果 */
 }
 
 .navbar ul li a {

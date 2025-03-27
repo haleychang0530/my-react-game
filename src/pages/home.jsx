@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./css/home.css";
-import petImageLow from '../assets/react.svg'; 
+import petImageLow from '../assets/fake_egg.jpg';
 
 export default function HomePage() {
   const [hp, setHp] = useState(100);
