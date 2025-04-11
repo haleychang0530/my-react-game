@@ -21,11 +21,11 @@ export default function HomePage() {
   // 模擬 API 請求來抓取資料
   const fetchPetStatus = async () => {
     try {
-      // 🚀 在這裡替換成真實的 API 請求，像是：
+      // 在這裡替換成真實的 API 請求，像是：
       // const res = await fetch("/api/pet-status");
       // const data = await res.json();
 
-      // 🟡 現在使用假數據
+      // 現在用假數據
       const fakeData = { hp: 80, score: 1200, record: 3500 };
       setHp(fakeData.hp);
       setScore(fakeData.score);
@@ -35,7 +35,7 @@ export default function HomePage() {
     }
   };
 
-  // 初始化時抓取寵物狀態
+  // 初始化時抓寵物狀態
   useEffect(() => {
     fetchPetStatus();
   }, []);

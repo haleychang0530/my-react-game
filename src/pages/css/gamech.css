@@ -1,0 +1,73 @@
+/* 遊戲頁面相關樣式，排除 navbar */
+
+  /* 遊戲容器 */
+  .game-container {
+    background-color: #2c2c2c;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    text-align: center;
+  }
+  
+  /* 顯示得分 */
+  h1 {
+    font-size: 24px;
+    color: #f1c40f;
+    margin-bottom: 20px;
+  }
+  
+  /* 顯示題目 */
+  h2 {
+    font-size: 18px;
+    color: #ecf0f1;
+    margin-bottom: 20px;
+  }
+  
+  /* 選項容器 */
+  .options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  /* 按鈕樣式 */
+  button {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    background-color: #34495e;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+  
+  button:hover {
+    background-color: #16a085;
+  }
+  
+  button:focus {
+    outline: none;
+  }
+  
+  /* 遊戲結束頁面 */
+  .game-over {
+    color: #ecf0f1;
+  }
+  
+  .game-over button {
+    width: 150px;
+    margin: 10px;
+  }
+  
+  /* 其他調整 */
+  button:disabled {
+    background-color: #7f8c8d;
+    cursor: not-allowed;
+  }
+  
