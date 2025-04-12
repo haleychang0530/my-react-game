@@ -1,0 +1,104 @@
+/* 遊戲容器 */
+.game-container {
+    font-family: 'Press Start 2P', cursive; /* 像素風格字體 */
+    background-color: #000;
+    color: #fff;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 10px;
+    border: 5px solid #fff;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* 標題 */
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  
+  /* 顯示當前單字 */
+  .word-display h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 20px 0;
+    animation: pulse 1s infinite;
+  }
+  
+  /* 顯示畫布區域 */
+  .canvas-container {
+    margin: 20px 0;
+    border: 5px solid #fff;
+    padding: 10px;
+    display: inline-block;
+  }
+  
+  /* 控制按鈕 */
+  .controls {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  button {
+    background-color: #111;
+    color: #fff;
+    font-size: 1rem;
+    padding: 10px 15px;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  button:hover {
+    background-color: #fff;
+    color: #000;
+    transform: scale(1.1);
+  }
+  
+  button:disabled {
+    background-color: #444;
+    color: #888;
+    cursor: not-allowed;
+  }
+  
+  /* 反饋訊息 */
+  .feedback {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .feedback.correct {
+    color: #4caf50; /* 正確顏色 */
+  }
+  
+  .feedback.incorrect {
+    color: #f44336; /* 不正確顏色 */
+  }
+  
+  /* 顯示遊戲結束畫面 */
+  .game-stats {
+    background-color: #111;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 30px;
+  }
+  
+  /* 讓文字有閃爍效果的動畫 */
+  @keyframes pulse {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  

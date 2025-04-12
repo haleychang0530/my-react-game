@@ -1,6 +1,4 @@
-/* 遊戲頁面相關樣式，排除 navbar */
-
-  /* 遊戲容器 */
+/* 遊戲容器 */
   .game-container {
     background-color: #2c2c2c;
     border-radius: 10px;
@@ -9,6 +7,14 @@
     width: 400px;
     text-align: center;
   }
+
+  .game-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(60vh - 50px); /* 扣掉navbar高度，參數自己調 */
+  }
+  
   
   /* 顯示得分 */
   h1 {
