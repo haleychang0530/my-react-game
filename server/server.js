@@ -47,12 +47,12 @@ app.post('/wakeup', (req, res) => {
 });
 
 // 創建新帳號
-app.post('/createAccount', async (req, res) => {
-    const { username, password, petname, hp, score } = req.body;
+app.post('login', async (req, res) => {
+    const { username, password } = req.body;
     try {
         const result = await client.query(
-            'INSERT INTO players (username, password, petname, hp, score) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-            [username, password, petname, hp, score]
+            'INSERT INTO players (username, password, petname, hp, score) VALUES ($1, $2, "Cutie", 1000, 0) RETURNING *',
+            [username, password, "Cutie", 1000, 0]
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {
