@@ -19,7 +19,7 @@ client.connect()
 
 // 允許來自前端之跨域請求
 app.use(cors({
-  origin: 'https://my-react-game-front.onrender.com/#', 
+  origin: 'https://my-react-game-front-uoqw.onrender.com', 
 }));
 // 解析 JSON 請求
 app.use(express.json());
