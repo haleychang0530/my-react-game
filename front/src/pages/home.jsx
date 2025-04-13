@@ -21,11 +21,10 @@ export default function HomePage() {
   const fetchPetStatus = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`${API_URL}/pet-status`);
-      const data = await res.json();
-      setHp(data.hp);
-      setScore(data.score);
-      setRecord(data.record);
+      const res = await axios.get(`${API_URL}/pet-status`, {params: {username}});
+      setHp(res.data.hp);
+      setScore(res.data.score);
+      //setRecord(data.record);
     } catch (error) {
       console.error("Error fetching pet status:", error);
     }

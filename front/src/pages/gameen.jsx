@@ -136,6 +136,31 @@ function Gameen() {
     const touch = e.touches[0];
     draw(touch.clientX - rect.left, touch.clientY - rect.top);
   };
+  
+  const updateSync = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(`${API_URL}/checkUnique`, { 
+        params: { correctCount }
+      });
+
+      if(!res.data.exists){
+        try{
+          const response = await axios.post(`${API_URL}/createAccount`, {username, password});
+        } 
+        catch(err){
+          setError('發生錯誤： ' + err.response.data.message);
+          return ;
+        }
+      }
+
+      navigate("/home");
+
+    } 
+    catch (err) {
+      setError('登入失敗: ' + err.response.data.message);
+    }
+  };
 
   if (gameCompleted) {
     return (
