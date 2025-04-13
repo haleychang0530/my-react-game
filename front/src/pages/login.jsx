@@ -13,7 +13,9 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${API_URL}/checkUnique`, {username});
+      const res = await axios.get(`${API_URL}/checkUnique`, {
+        params: { username }
+      });
 
       if(!res.data.exists){
         try{
