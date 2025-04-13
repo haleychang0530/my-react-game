@@ -14,7 +14,7 @@ const Login = () => {
       navigate("/home");
     } else {
       setError("❌ Wrong username or password!");
-  */  }
+  */ 
     e.preventDefault();
     try {
       const res = await axios.post('/login', { username, password });
