@@ -8,7 +8,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  console.log('API base URL:', process.env.REACT_APP_API);
   const handleLogin = async (e) => {
   /*  if (username === "test" && password === "1234") {
       navigate("/home");
@@ -17,7 +17,6 @@ const Login = () => {
 
     () => navigate("/register")}> 
   */ 
-    
     e.preventDefault();
     try {
       console.log('API base URL:', process.env.REACT_APP_API);
