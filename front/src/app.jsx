@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom'; 
+import { HashRouter as Router, Route, Routes, useLocation } from 'react-router-dom'; 
 import Navbar from './components/navbar';  // 引入 Navbar
 import Start from './pages/start';
 import Login from './pages/login';
