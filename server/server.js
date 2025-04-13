@@ -42,12 +42,12 @@ client.query(createTableQuery)
   .catch(err => console.log(err));
 
 // 唤醒接口，防止伺服器休眠
-fastify.post(`${process.env.API_URL}/wakeup`, async (request, reply) => {
+fastify.post('/wakeup', async (request, reply) => {
     reply.send('"ok!"');
 });
 
 // 創建新帳號
-fastify.post(`${process.env.API_URL}/login`, async (request, reply) => {
+fastify.post('/login', async (request, reply) => {
     const { username, password } = request.body;
     try {
         const result = await client.query(
@@ -65,7 +65,7 @@ fastify.post(`${process.env.API_URL}/login`, async (request, reply) => {
 });
 
 // 獲取玩家分數
-fastify.get(`${process.env.API_URL}/getScore`, async (request, reply) => {
+fastify.get('/getScore', async (request, reply) => {
     const { username } = request.query;
     try {
         const result = await client.query(
@@ -83,7 +83,7 @@ fastify.get(`${process.env.API_URL}/getScore`, async (request, reply) => {
 });
 
 // 更新玩家分數
-fastify.post(`${process.env.API_URL}/updateScore`, async (request, reply) => {
+fastify.post('/updateScore', async (request, reply) => {
     const { username, petname, score } = request.body;
     try {
         const result = await client.query(
@@ -101,7 +101,7 @@ fastify.post(`${process.env.API_URL}/updateScore`, async (request, reply) => {
 });
 
 // 獲取排行榜
-fastify.get(`${process.env.API_URL}/leaderboard`, async (request, reply) => {
+fastify.get('/leaderboard', async (request, reply) => {
     try {
         const result = await client.query('SELECT * FROM players ORDER BY score DESC');
         reply.send(result.rows);
