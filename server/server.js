@@ -4,6 +4,7 @@ const { Client } = require('pg');
 const app = express();
 const port = process.env.PORT || 3000;
 const path = require('path');
+console.log('API base URL:', process.env.API_URL);
 
 // 連接到 PostgreSQL 資料庫
 const client = new Client({
