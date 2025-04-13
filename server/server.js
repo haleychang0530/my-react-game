@@ -2,7 +2,7 @@ const express = require('express'); //HTTP請求
 const cors = require('cors'); //跨域
 const { Client } = require('pg'); 
 const app = express();
-const port = 3000 || process.env.PORT;
+const port = process.env.PORT || 3000;
 const path = require('path');
 
 // 連接到 PostgreSQL 資料庫
@@ -51,7 +51,7 @@ app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     try {
         const result = await client.query(
-            'INSERT INTO players (username, password, petname, hp, score) VALUES ($1, $2, "Cutie", 100, 3500) RETURNING *',
+            'INSERT INTO players (username, password, petname, hp, score) VALUES ($1, $2, $3, $4, $5) RETURNING *',
             [username, password, "Cutie", 100, 3500]
         );
         res.status(201).json(result.rows[0]);
