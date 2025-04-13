@@ -3,12 +3,13 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import "./css/login.css"; 
 
+const API_URL = "https://my-react-game-server-0uk9.onrender.com";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  console.log('API base URL:', process.env.REACT_APP_API);
+  console.log('API base URL:', API_URL);
   const handleLogin = async (e) => {
   /*  if (username === "test" && password === "1234") {
       navigate("/home");
@@ -19,8 +20,7 @@ const Login = () => {
   */ 
     e.preventDefault();
     try {
-      console.log('API base URL:', process.env.REACT_APP_API);
-      const res = await axios.post(`${process.env.REACT_APP_API}/login`, { username, password });
+      const res = await axios.post(`${API_URL}/login`, { username, password });
       navigate("/home");
     } catch (err) {
       setError('登入失敗: ' + err.response.data.message);
