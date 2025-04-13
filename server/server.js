@@ -1,7 +1,7 @@
-const express = require('express'); //HTTP請求
+const Fastify = require('fastify');
+const fastify = Fastify();  //處理絕對路徑之HTTP請求
 const cors = require('cors'); //跨域
 const { Client } = require('pg'); 
-const app = express();
 const port = process.env.PORT || 3000;
 const path = require('path');
 console.log('API base URL:', process.env.API_URL);
@@ -19,13 +19,14 @@ client.connect()
   .catch(err => console.log(err));
 
 // 允許來自前端之跨域請求
-app.use(cors({
-  origin: 'https://my-react-game-front-uoqw.onrender.com', 
-  credentials: true,
+fastify.register(cors, {
+  origin: 'https://my-react-game-front-uoqw.onrender.com',
+  credentials: true, 
   methods: ['GET', 'POST']
-}));
+});
+
 // 解析 JSON 請求
-app.use(express.json());
+fastify.addContentTypeParser('application/json', { parseAs: 'json' });
 
 // 建立用戶資料表（如果資料表不存在）
 const createTableQuery = `
@@ -43,14 +44,13 @@ client.query(createTableQuery)
   .then(() => console.log('Players table created or already exists'))
   .catch(err => console.log(err));
 
-
 // 唤醒接口，防止伺服器休眠
-app.post(`${process.env.API_URL}/wakeup`, (req, res) => {
+fastify.post(`${process.env.API_URL}/wakeup`, (req, res) => {
     res.send('"ok!"');
 });
 
 // 創建新帳號
-app.post(`${process.env.API_URL}/login`, async (req, res) => {
+fastify.post(`${process.env.API_URL}/login`, async (req, res) => {
     const { username, password } = req.body;
     try {
         const result = await client.query(
@@ -68,7 +68,7 @@ app.post(`${process.env.API_URL}/login`, async (req, res) => {
 });
 
 // 獲取玩家分數
-app.get(`${process.env.API_URL}/getScore`, async (req, res) => {
+fastify.get(`${process.env.API_URL}/getScore`, async (req, res) => {
     const { username } = req.query;
     try {
         const result = await client.query(
@@ -86,7 +86,7 @@ app.get(`${process.env.API_URL}/getScore`, async (req, res) => {
 });
 
 // 更新玩家分數
-app.post(`${process.env.API_URL}/updateScore`, async (req, res) => {
+fastify.post(`${process.env.API_URL}/updateScore`, async (req, res) => {
     const { username, petname, score } = req.body;
     try {
         const result = await client.query(
@@ -104,7 +104,7 @@ app.post(`${process.env.API_URL}/updateScore`, async (req, res) => {
 });
 
 // 獲取排行榜
-app.get(`${process.env.API_URL}/leaderboard`, async (req, res) => {
+fastify.get(`${process.env.API_URL}/leaderboard`, async (req, res) => {
     try {
         const result = await client.query('SELECT * FROM players ORDER BY score DESC');
         res.json(result.rows);
@@ -115,6 +115,6 @@ app.get(`${process.env.API_URL}/leaderboard`, async (req, res) => {
 });
 
 // 啟動伺服器
-app.listen(port, () => {
+fastify.listen(port, () => {
     console.log(`Server is running at PORT:${port}`);
 });
