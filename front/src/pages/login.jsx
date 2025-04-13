@@ -18,7 +18,8 @@ const Login = () => {
       if(!res.data.exists){
         try{
           const response = await axios.post(`${API_URL}/createAccount`, {username, password});
-        }catch(err){
+        } 
+        catch(err){
           setError('發生錯誤： ' + err.response.data.message);
           return ;
         }
@@ -26,7 +27,8 @@ const Login = () => {
 
       navigate("/home");
 
-    } catch (err) {
+    } 
+    catch (err) {
       setError('登入失敗: ' + err.response.data.message);
     }
   };

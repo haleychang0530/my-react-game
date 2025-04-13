@@ -17,10 +17,9 @@ const Ranking = () => {
       } catch (err) {
         setError('Failed to fetch leaderboard data');
         setLoading(false); 
-    };
-
+    }};
     fetchLeaderboard();
-  }, []); 
+  }, []) ; 
 
   if (loading) {
     return <div>Loading...</div>; 
