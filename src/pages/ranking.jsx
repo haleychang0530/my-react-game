@@ -1,38 +1,47 @@
-
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import './css/ranking.css'; // 匯入像素風CSS
 
-const Ranking = () => {
-  const navigate = useNavigate();  
+const playerData = [
+  { name: 'test1', hp: 80, score: 1500 },
+  { name: 'test2', hp: 95, score: 1800 },
+  { name: 'test3', hp: 60, score: 1200 },
+  { name: 'test4', hp: 70, score: 1400 },
+  { name: 'test5', hp: 100, score: 2000 },
+];
 
+const sortedPlayers = [...playerData].sort((a, b) => b.score - a.score);
+
+const rankIcons = ['👑', '🥈', '🥉'];
+
+export default function Ranking() {
   return (
-    <div>
-      <h1>Ranking</h1>
-      <div>
-        <h2>Top 3 Players</h2>
-        <p>1st Place: Player 1</p>
-        <p>2nd Place: Player 2</p>
-        <p>3rd Place: Player 3</p>
+    <div className="ranking-container">
+      <h1 className="ranking-title">🏆 排行榜</h1>
+      <div className="ranking-list">
+        {sortedPlayers.map((player, index) => (
+          <div
+            key={player.name}
+            className={`ranking-item ${
+              index === 0
+                ? 'first'
+                : index === 1
+                ? 'second'
+                : index === 2
+                ? 'third'
+                : ''
+            }`}
+          >
+            <div className="rank-left">
+              <span className="rank-icon">{rankIcons[index] || index + 1}</span>
+              <span className="player-name">{player.name}</span>
+            </div>
+            <div className="rank-right">
+              <div>❤️ HP: {player.hp}</div>
+              <div>⭐ Score: {player.score}</div>
+            </div>
+          </div>
+        ))}
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Pet Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Healthy</td>
-          </tr>
-          {/* 其他玩家排名 */}
-        </tbody>
-      </table>
-      <button onClick={() => navigate('/home')}>Home</button>  {/* 使用 navigate */}
-      <button onClick={() => navigate('/game')}>Game</button>  {/* 使用 navigate */}
     </div>
   );
-};
-
-export default Ranking;
+}

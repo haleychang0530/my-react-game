@@ -5,13 +5,12 @@ import petImageLow from '../assets/fake_egg.jpg';
 export default function HomePage() {
   const [hp, setHp] = useState(100);
   const [score, setScore] = useState(0);
-  const [record, setRecord] = useState(0);
 
   // 根據 record 顯示不同的寵物圖片
-  const getPetImage = (record) => {
-    if (record < 1000) {
+  const getPetImage = (score) => {
+    if (score < 1000) {
       return petImageLow; 
-    } else if (record < 5000) {
+    } else if (score < 5000) {
       return petImageLow;
     } else {
       return petImageLow;
@@ -26,10 +25,10 @@ export default function HomePage() {
       // const data = await res.json();
 
       // 現在用假數據
-      const fakeData = { hp: 80, score: 1200, record: 3500 };
+      const fakeData = { hp: 80, score: 1200};
       setHp(fakeData.hp);
       setScore(fakeData.score);
-      setRecord(fakeData.record);
+
     } catch (error) {
       console.error("Error fetching pet status:", error);
     }
@@ -41,7 +40,7 @@ export default function HomePage() {
   }, []);
 
   // 根據 record 決定顯示的寵物圖片
-  const petImage = getPetImage(record);
+  const petImage = getPetImage(score);
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-800">
@@ -52,7 +51,6 @@ export default function HomePage() {
         <div className="space-y-2">
           <p className="pixel-font text-yellow-300">HP: <span>{hp}</span></p>
           <p className="pixel-font text-blue-300">Score: <span>{score}</span></p>
-          <p className="pixel-font text-green-300">Record: <span>{record}</span></p>
         </div>
 
         {/* 顯示寵物圖片 */}
