@@ -42,12 +42,12 @@ client.query(createTableQuery)
 
 
 // 唤醒接口，防止伺服器休眠
-app.post(`${process.env.REACT_API}/wakeup`, (req, res) => {
+app.post(`${process.env.REACT_APP_Backend}/wakeup`, (req, res) => {
     res.send('"ok!"');
 });
 
 // 創建新帳號
-app.post(`${process.env.REACT_API}/login`, async (req, res) => {
+app.post(`${process.env.REACT_APP_Backend}/login`, async (req, res) => {
     const { username, password } = req.body;
     try {
         const result = await client.query(
@@ -65,7 +65,7 @@ app.post(`${process.env.REACT_API}/login`, async (req, res) => {
 });
 
 // 獲取玩家分數
-app.get(`${process.env.REACT_API}/getScore`, async (req, res) => {
+app.get(`${process.env.REACT_APP_Backend}/getScore`, async (req, res) => {
     const { username } = req.query;
     try {
         const result = await client.query(
@@ -83,7 +83,7 @@ app.get(`${process.env.REACT_API}/getScore`, async (req, res) => {
 });
 
 // 更新玩家分數
-app.post(`${process.env.REACT_API}/updateScore`, async (req, res) => {
+app.post(`${process.env.REACT_APP_Backend}/updateScore`, async (req, res) => {
     const { username, petname, score } = req.body;
     try {
         const result = await client.query(
@@ -101,7 +101,7 @@ app.post(`${process.env.REACT_API}/updateScore`, async (req, res) => {
 });
 
 // 獲取排行榜
-app.get(`${process.env.REACT_API}//leaderboard`, async (req, res) => {
+app.get(`${process.env.REACT_APP_Backend}/leaderboard`, async (req, res) => {
     try {
         const result = await client.query('SELECT * FROM players ORDER BY score DESC');
         res.json(result.rows);
