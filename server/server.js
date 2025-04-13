@@ -1,6 +1,6 @@
 const Fastify = require('fastify');
 const fastify = Fastify();  //處理絕對路徑之HTTP請求
-const cors = require('cors'); //跨域
+const cors = require('@fastify/cors');  //fastfiy之跨域
 const { Client } = require('pg'); 
 const port = process.env.PORT || 3000;
 const path = require('path');
