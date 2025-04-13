@@ -20,6 +20,7 @@ const Login = () => {
     
     e.preventDefault();
     try {
+      console.log('API base URL:', process.env.REACT_APP_API);
       const res = await axios.post(`${process.env.REACT_APP_API}/login`, { username, password });
       navigate("/home");
     } catch (err) {
