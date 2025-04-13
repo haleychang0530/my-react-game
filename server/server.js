@@ -47,7 +47,7 @@ app.post('/wakeup', (req, res) => {
 });
 
 // 創建新帳號
-app.post('login', async (req, res) => {
+app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     try {
         const result = await client.query(
