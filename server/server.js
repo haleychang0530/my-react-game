@@ -17,7 +17,7 @@ client.connect()
   .then(() => console.log('PostgreSQL Connected'))
   .catch(err => console.log(err));
 
-// 允許來自前端網站的請求
+// 允許來自前端之跨域請求
 app.use(cors({
   origin: '', 
 }));
