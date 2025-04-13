@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import "./css/login.css"; 
 
@@ -9,10 +10,17 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    if (username === "test" && password === "1234") {
+  /*  if (username === "test" && password === "1234") {
       navigate("/home");
     } else {
       setError("❌ Wrong username or password!");
+  */  }
+    e.preventDefault();
+    try {
+      const res = await axios.post('/login', { username, password });
+      setLoginStatus('登入成功');
+    } catch (err) {
+      setLoginStatus('登入失敗: ' + err.response.data.message);
     }
   };
 
