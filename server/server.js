@@ -25,9 +25,6 @@ fastify.register(cors, {
   methods: ['GET', 'POST']
 });
 
-// 解析 JSON 請求
-fastify.addContentTypeParser('application/json', { parseAs: 'json' });
-
 // 建立用戶資料表（如果資料表不存在）
 const createTableQuery = `
   CREATE TABLE IF NOT EXISTS players (
