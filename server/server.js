@@ -55,7 +55,7 @@ app.post(`${process.env.API_URL}/login`, async (req, res) => {
     try {
         const result = await client.query(
             'INSERT INTO players (username, password, petname, hp, score) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-            [username, password, "Cutie", 100, 3500]
+            [username, password, 'Cutie', 100, 3500]
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {
