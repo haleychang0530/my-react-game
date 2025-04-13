@@ -2,7 +2,7 @@ const express = require('express'); //HTTP請求
 const cors = require('cors'); //跨域
 const { Client } = require('pg'); 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000 || process.env.PORT;
 const path = require('path');
 
 // 連接到 PostgreSQL 資料庫
