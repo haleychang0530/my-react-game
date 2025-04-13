@@ -19,6 +19,7 @@ const Login = () => {
     try {
       const res = await axios.post('/login', { username, password });
       setLoginStatus('登入成功');
+      navigate("/home");
     } catch (err) {
       setLoginStatus('登入失敗: ' + err.response.data.message);
     }
