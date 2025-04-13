@@ -113,5 +113,5 @@ app.get('/leaderboard', async (req, res) => {
 
 // 啟動伺服器
 app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
+    console.log(`Server is running at PORT:${port}`);
 });
