@@ -1,66 +1,69 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
-import "./css/login.css"; 
 
-const API_URL = "https://my-react-game-server-0uk9.onrender.com";
-const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+const Ranking = () => {
   const navigate = useNavigate();
-  
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.get(`${API_URL}/checkUnique`, {
-        params: { username }
-      });
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
 
-      if(!res.data.exists){
-        try{
-          const response = await axios.post(`${API_URL}/createAccount`, {username, password});
-        } 
-        catch(err){
-          setError('發生錯誤： ' + err.response.data.message);
-          return ;
-        }
-      }
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/leaderboard`);
+        setLeaderboard(response.data); 
+        setLoading(false); 
+      } catch (err) {
+        setError('Failed to fetch leaderboard data');
+        setLoading(false); 
+    }};
+    fetchLeaderboard();
+  }, []) ; 
 
-      navigate("/home");
+  if (loading) {
+    return <div>Loading...</div>; 
+  }
 
-    } 
-    catch (err) {
-      setError('登入失敗: ' + err.response.data.message);
-    }
-  };
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
-    <div className="pixel-container">
-      <h1 className="pixel-title">LOGIN🍳</h1>
-      <input
-        type="text"
-        className="pixel-input"
-        placeholder="USERNAME"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="password"
-        className="pixel-input"
-        placeholder="PASSWORD"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      {error && <p className="pixel-error">{error}</p>}
-      <button className="pixel-button" onClick={handleLogin}>
-        LOGIN
-      </button>
-      <button className="pixel-button" onClick={handleLogin}>
-        REGISTER
-      </button>
+    <div>
+      <h1>Ranking</h1>
+      <div>
+        <h2>Top 3 Players</h2>
+        {leaderboard.slice(0, 3).map((player, index) => (
+          <p key={player.id}>
+            {index + 1}st Place: {player.username} - {player.score} points
+          </p>
+        ))}
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Score</th>
+            <th>Pet Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {leaderboard.map((player) => (
+            <tr key={player.id}>
+              <td>{player.id}</td>
+              <td>{player.username}</td>
+              <td>{player.score}</td>
+              <td>{player.hp > 0 ? 'Healthy' : 'Unhealthy'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <button onClick={() => navigate('/home')}>Home</button>
+      <button onClick={() => navigate('/game')}>Game</button>
     </div>
   );
 };
 
-export default Login;
+export default Ranking;
