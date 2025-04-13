@@ -18,18 +18,14 @@ export default function HomePage() {
     }
   };
 
-  // 模擬 API 請求來抓取資料
-  const fetchPetStatus = async () => {
+  const fetchPetStatus = async (e) => {
+    e.preventDefault();
     try {
-      // 在這裡替換成真實的 API 請求，像是：
-      // const res = await fetch("/api/pet-status");
-      // const data = await res.json();
-
-      // 現在用假數據
-      const fakeData = { hp: 80, score: 1200, record: 3500 };
-      setHp(fakeData.hp);
-      setScore(fakeData.score);
-      setRecord(fakeData.record);
+      const res = await fetch(`${API_URL}/pet-status`);
+      const data = await res.json();
+      setHp(data.hp);
+      setScore(data.score);
+      setRecord(data.record);
     } catch (error) {
       console.error("Error fetching pet status:", error);
     }

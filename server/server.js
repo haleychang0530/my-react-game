@@ -48,8 +48,9 @@ app.post('/wakeup', (req, res) => {
     res.send('"ok!"');
 });
 
-// 創建新帳號
-app.post('/login', async (req, res) => {
+
+// 登入與創建新帳號
+app.post('/createAccount', async (req, res) => {
     const { username, password} = req.body;
     try {
         const result = await client.query(
@@ -60,9 +61,27 @@ app.post('/login', async (req, res) => {
     } catch (err) {
         console.log(err);
        if (err.code === '23505') {  //NOT UNIQUE error
-            res.status(400).json({ message: 'Username already exists' });
+            res.status(400).json({ message: 'Login Successfully!' });
         }
         else res.status(500).json({ error: 'Error creating account' });
+    }
+});
+
+// 用戶登入
+app.get('/checkUnique', async (req, res) => {
+    const { username } = req.query; 
+    try {
+        const result = await client.query(
+            'SELECT * FROM players WHERE realname = $1', 
+            [username]
+        );
+        if (result.rows.length > 0) {
+            return res.json({ exists: true }); 
+        }
+        res.json({ exists: false }); 
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 
@@ -83,6 +102,8 @@ app.get('/getScore', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+
 
 // 更新玩家分數
 app.post('/updateScore', async (req, res) => {

@@ -11,17 +11,21 @@ const Login = () => {
   const navigate = useNavigate();
   
   const handleLogin = async (e) => {
-  /*  if (username === "test" && password === "1234") {
-      navigate("/home");
-    } else {
-      setError("❌ Wrong username or password!");
-
-    () => navigate("/register")}> 
-  */ 
     e.preventDefault();
     try {
-      const res = await axios.post(`${API_URL}/login`, { username, password });
+      const res = await axios.post(`${API_URL}/checkUnique`, {username});
+
+      if(!res.data.exists){
+        try{
+          const response = await axios.post(`${API_URL}/createAccount`, {username, password});
+        }catch(err){
+          setError('發生錯誤： ' + err.response.data.message);
+          return ;
+        }
+      }
+
       navigate("/home");
+
     } catch (err) {
       setError('登入失敗: ' + err.response.data.message);
     }
