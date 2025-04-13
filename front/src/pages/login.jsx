@@ -14,11 +14,13 @@ const Login = () => {
       navigate("/home");
     } else {
       setError("❌ Wrong username or password!");
+
+    () => navigate("/register")}> 
   */ 
     
     e.preventDefault();
     try {
-      const res = await axios.post('/login', { username, password });
+      const res = await axios.post(`${process.env.REACT_APP_Backend}/login`, { username, password });
       navigate("/home");
     } catch (err) {
       setError('登入失敗: ' + err.response.data.message);
@@ -46,7 +48,6 @@ const Login = () => {
       <button className="pixel-button" onClick={handleLogin}>
         LOGIN
       </button>
-      //() => navigate("/register")}> 
       <button className="pixel-button" onClick={handleLogin}>
         REGISTER
       </button>
