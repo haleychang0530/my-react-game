@@ -9,12 +9,13 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
   /*  if (username === "test" && password === "1234") {
       navigate("/home");
     } else {
       setError("❌ Wrong username or password!");
   */ 
+    
     e.preventDefault();
     try {
       const res = await axios.post('/login', { username, password });
