@@ -6,6 +6,6 @@ export default defineConfig({
   plugins: [react()],
   base: '/', 
   preview: {
-    allowedHosts: ['my-react-game-front.onrender.com'],
+    allowedHosts: ['my-react-game-front-uoqw.onrender.com'],
   },
 })
