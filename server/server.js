@@ -19,7 +19,9 @@ client.connect()
 
 // 允許來自前端網站的請求
 app.use(cors({
-  origin: 'https://my-react-game-front-uoqw.onrender.com', 
+  origin: 'https://my-react-game-front-uoqw.onrender.com',
+  methods: ['GET', 'POST'], 
+  credentials: true         
 }));
 // 解析 JSON 請求
 app.use(express.json());
