@@ -72,7 +72,7 @@ app.get('/checkUnique', async (req, res) => {
     const { username } = req.query; 
     try {
         const result = await client.query(
-            'SELECT * FROM players WHERE realname = $1', 
+            'SELECT * FROM players WHERE username = $1', 
             [username]
         );
         if (result.rows.length > 0) {
