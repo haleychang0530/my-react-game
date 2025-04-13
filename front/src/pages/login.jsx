@@ -20,7 +20,7 @@ const Login = () => {
     
     e.preventDefault();
     try {
-      const res = await axios.post(`${process.env.REACT_APP_Backend}/login`, { username, password });
+      const res = await axios.post(`${process.env.REACT_APP_API}/login`, { username, password });
       navigate("/home");
     } catch (err) {
       setError('登入失敗: ' + err.response.data.message);
