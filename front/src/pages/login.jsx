@@ -9,7 +9,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  console.log('API base URL:', API_URL);
+  
   const handleLogin = async (e) => {
   /*  if (username === "test" && password === "1234") {
       navigate("/home");
