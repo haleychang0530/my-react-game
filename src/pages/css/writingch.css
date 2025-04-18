@@ -61,13 +61,13 @@
   cursor: pointer;
   border-radius: 5px;
   border: none;
-  background-color: #007bff;
+  background-color: #ff981f;
   color: white;
   transition: background-color 0.2s;
 }
 
 .button:hover, .control-button:hover {
-  background-color: #0056b3;
+  background-color: #ff981f;
 }
 
 .nav-buttons {

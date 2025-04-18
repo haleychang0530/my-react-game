@@ -19,7 +19,7 @@ export default function WritingCh() {
   const handleCheck = async () => {
     try {
       const data = await canvasRef.current.exportImage('png');
-      const hasDrawing = data && data !== 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAB...';
+      const hasDrawing = data && !data.includes('iVBORw0KGgoAAAANSUhEUgAAAAEAAAAB');
       setMessage(hasDrawing ? '通過 ✅' : '再試一次 ❌');
     } catch (error) {
       console.error('Check error:', error);
@@ -53,6 +53,20 @@ export default function WritingCh() {
     handleClear();
   };
 
+  const handleDownload = async () => {
+    try {
+      const dataUrl = await canvasRef.current.exportImage('png');
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = `writing-${currentIndex + 1}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Download error:', error);
+    }
+  };
+
   if (isFinished) {
     return (
       <div className="writing-container">
@@ -65,35 +79,37 @@ export default function WritingCh() {
   return (
     <div className="writing-container">
       <h2 className="title">第 {currentIndex + 1} / {gifList.length} 題</h2>
+
       <div className="canvas-wrapper">
-  <div className="canvas-layer">
-    <img src={gifList[currentIndex]} alt="筆順題目" className="stroke-gif" />
-    <ReactSketchCanvas
-  ref={canvasRef}
-  width="100%"
-  height="100%"
-  strokeWidth={4}
-  strokeColor="black"
-  canvasColor="transparent"
-  backgroundImage="none"
-  exportWithBackgroundImage={false}
-  preserveBackgroundImageAspectRatio="none"
-  style={{
-    backgroundColor: 'transparent',
-    touchAction: 'none',
-  }}
-  className="sketch-canvas"
-/>
-  </div>
+        <div className="canvas-layer">
+          <img src={gifList[currentIndex]} alt="筆順題目" className="stroke-gif" />
+          <ReactSketchCanvas
+            ref={canvasRef}
+            width="100%"
+            height="100%"
+            strokeWidth={4}
+            strokeColor="black"
+            canvasColor="transparent"
+            backgroundImage="none"
+            exportWithBackgroundImage={false}
+            preserveBackgroundImageAspectRatio="none"
+            style={{
+              backgroundColor: 'transparent',
+              touchAction: 'none',
+            }}
+            className="sketch-canvas"
+          />
+        </div>
+      </div>
 
-  {message && <div className="feedback-message">{message}</div>}
-  <div className="button-group">
-    <button onClick={handleCheck} className="button check">判斷</button>
-    <button onClick={handleClear} className="button clear">清除</button>
-  </div>
-</div>
+      {message && <div className="feedback-message">{message}</div>}
 
-     
+      <div className="button-group">
+        <button onClick={handleCheck} className="button check">判斷</button>
+        <button onClick={handleClear} className="button clear">清除</button>
+        <button onClick={handleDownload} className="button download">下載圖片</button>
+      </div>
+
       <div className="nav-buttons">
         <button onClick={handlePrev} className="control-button">上一題</button>
         <button onClick={handleNext} className="control-button">下一題</button>
