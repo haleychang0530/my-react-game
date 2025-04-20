@@ -84,6 +84,27 @@ app.get('/checkUnique', async (req, res) => {
     }
 });
 
+// get all status
+app.get('/pet-status', async (req, res) => {
+    const { username } = req.query;
+    try {
+        const result = await client.query(
+            'SELECT hp, score FROM players WHERE username = $1',
+            [username]
+        );
+        if (result.rows.length > 0) {
+            return res.json({ 
+                hp: result.rows[0].hp, 
+                score: result.rows[0].score 
+            });
+        }
+        res.status(404).json({ error: 'Player not found' });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 // 獲取玩家分數
 app.get('/getScore', async (req, res) => {
     const { username } = req.query;
@@ -102,15 +123,13 @@ app.get('/getScore', async (req, res) => {
     }
 });
 
-
-
 // 更新玩家分數
 app.post('/updateScore', async (req, res) => {
-    const { username, petname, score } = req.body;
+    const { username, hp, score } = req.body;
     try {
         const result = await client.query(
-            'UPDATE players SET score = score + $1 WHERE username = $2 AND petname = $3 RETURNING *',
-            [score, username, petname]
+            'UPDATE players SET score = score + $1 WHERE username = $2 AND hp = $3 RETURNING *',
+            [score, username, hp]
         );
         if (result.rows.length > 0) {
             return res.json(result.rows[0]);
