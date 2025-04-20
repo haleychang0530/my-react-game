@@ -18,6 +18,7 @@ function App() {
         <Route path="/home" element={<PageWithNavbar><Home /></PageWithNavbar>} />
         <Route path="/gameen" element={<PageWithNavbar><GameEn /></PageWithNavbar>} />
         <Route path="/gamech" element={<PageWithNavbar><GameCh /></PageWithNavbar>} />
+        <Route path="/writingch" element={<PageWithNavbar><WritingCh /></PageWithNavbar>} />
         <Route path="/ranking" element={<PageWithNavbar><Ranking /></PageWithNavbar>} />
       </Routes>
     </Router>
