@@ -7,6 +7,7 @@ import Home from './pages/home';
 import Ranking from './pages/ranking';
 import GameEn from './pages/gameen';
 import GameCh from './pages/gamech';
+import WritingCh from './pages/writingch';
 
 function App() {
   return (
