@@ -24,6 +24,7 @@ app.use(express.json());
 
 // 建立用戶資料表（如果資料表不存在）
 const createTableQuery = `
+  ALTER TABLE players DROP CONSTRAINT IF EXISTS players_petname_key
   CREATE TABLE IF NOT EXISTS players(
     id SERIAL PRIMARY KEY,-- id
     username VARCHAR(250) UNIQUE NOT NULL,
@@ -37,7 +38,6 @@ const createTableQuery = `
 client.query(createTableQuery)
   .then(() => console.log('Players table created or already exists'))
   .catch(err => console.log(err));
-
 
 // 唤醒接口，防止伺服器休眠
 app.post('/wakeup', (req, res) => {
