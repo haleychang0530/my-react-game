@@ -14,13 +14,13 @@ const Login = () => {
     e.preventDefault();
     const username = localStorage.username;
     try {
-      const res = await axios.get(${API_URL}/checkUnique, {
+      const res = await axios.get(`${API_URL}/checkUnique`, {
         params: { username }
       });
 
       if(!res.data.exists){
         try{
-          const response = await axios.post(${API_URL}/createAccount, {username, password});
+          const response = await axios.post(`${API_URL}/createAccount`, {username, password});
         } 
         catch(err){
           setError('發生錯誤： ' + err.response.data.message);
