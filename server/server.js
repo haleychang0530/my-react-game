@@ -24,15 +24,18 @@ app.use(express.json());
 
 // 建立用戶資料表（如果資料表不存在）
 const createTableQuery = `
-  ALTER TABLE players DROP CONSTRAINT IF EXISTS players_petname_key;
   CREATE TABLE IF NOT EXISTS players(
-    id SERIAL PRIMARY KEY,-- id
+    id SERIAL PRIMARY KEY, -- id
     username VARCHAR(250) UNIQUE NOT NULL,
     password VARCHAR(250) NOT NULL,
     petname VARCHAR(250) DEFAULT 'Cutie',
     hp INTEGER DEFAULT 100,
-    score INTEGER DEFAULT 0
+    score INTEGER DEFAULT 0 NOT NULL
   );
+
+  -- 設定如果 score 為 null，則更新為 0
+  UPDATE players SET score = 0 WHERE score IS NULL;
+  ALTER TABLE players DROP CONSTRAINT IF EXISTS players_petname_key;
 `;
 
 client.query(createTableQuery)
@@ -113,18 +116,14 @@ app.get('/getScore', async (req, res) => {
 // 更新玩家分數
 app.post('/updateScore', async (req, res) => {
   const { username, score } = req.body;
-  const finalScore = (typeof score === 'number' && !isNaN(score)) ? score : 0;
   try {
-    const result = await pool.query(
-      'UPDATE users SET score = $1 WHERE username = $2 RETURNING *',
-      [finalScore, username]
-    );
-    res.json({ success: true, user: result.rows[0], message: 'Upload score success!' });
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'update failed.' });
+    await client.query('UPDATE players SET score = score + $1 WHERE username = $2', [score, username]);
+    res.json({ message: 'Score updated successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to update score' });
   }
 });
-
 
 // 獲取排行榜
 app.get('/leaderboard', async (req, res) => {
