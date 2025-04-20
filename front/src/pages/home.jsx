@@ -21,7 +21,8 @@ export default function HomePage() {
 
   const fetchPetStatus = async () => {
     try {
-      const res = await axios.get(`${API_URL}/pet-status`, {params: {username}});
+      const username = localStorage.getItem("username");
+      const res = await axios.get(`${REACT_APP_API}/pet-status`, {params: {username}});
       setHp(res.data.hp);
       setScore(res.data.score);
       setRecord(res.data.score);
