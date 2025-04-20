@@ -26,9 +26,9 @@ const Login = () => {
           return ;
         }
       }
-      navigate("/home");
-      localStorage.setItem("username", username);
 
+      localStorage.setItem("username", username);
+      navigate("/home");
     } 
     catch (err) {
       setError('登入失敗: ' + err.response.data.message);
