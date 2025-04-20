@@ -59,7 +59,7 @@ app.post('/createAccount', async (req, res) => {
 
     const result = await client.query(
       'INSERT INTO players (username, password, petname, hp, score) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [username, password, 'Cutie', 100, 1000]
+      [username, password, 'Cutie', 100, 0]
     );
 
     res.status(201).json({ message: 'Account created', user: result.rows[0] });
