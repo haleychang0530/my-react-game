@@ -28,10 +28,11 @@ app.use(express.json());
 
 // 建立用戶資料表（如果資料表不存在）
 const createTableQuery = `
-  CREATE TABLE players (
-    username TEXT PRIMARY KEY UNIQUE,
-    password TEXT NOT NULL,
-    petname TEXT DEFAULT 'Cutie',
+  CREATE TABLE IF NOT EXISTS players(
+    id SERIAL PRIMARY KEY,-- id
+    username VARCHAR(250) UNIQUE NOT NULL,
+    password VARCHAR(250) NOT NULL,
+    petname VARCHAR(250) DEFAULT 'Cutie',
     hp INTEGER DEFAULT 100,
     score INTEGER DEFAULT 0
   );
@@ -50,6 +51,12 @@ app.post('/wakeup', (req, res) => {
 // 登入與創建新帳號
 app.post('/createAccount', async (req, res) => {
     const { username, password} = req.body;
+    const userCheck = await client.query(
+      'SELECT * FROM players WHERE username = $1', [username]
+    );
+    if (userCheck.rows.length > 0) {
+      return res.status(201).json(result.rows[0]);
+    }
     try {
         const result = await client.query(
             'INSERT INTO players (username, password, petname, hp, score) VALUES ($1, $2, $3, $4, $5) RETURNING *',
@@ -61,25 +68,7 @@ app.post('/createAccount', async (req, res) => {
        if (err.code === '23505') {  //NOT UNIQUE error
             res.status(409).json({ message: 'Login Successfully!' });
         }
-        else res.status(500).json({ error: 'Error creating account' });
-    }
-});
-
-// 用戶登入
-app.get('/checkUnique', async (req, res) => {
-    const { username } = req.query; 
-    try {
-        const result = await client.query(
-            'SELECT * FROM players WHERE username = $1', 
-            [username]
-        );
-        if (result.rows.length > 0) {
-            return res.json({ exists: true }); 
-        }
-        res.json({ exists: false }); 
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: 'Internal server error' });
+      else res.status(500).json({ error: 'Error creating account' });
     }
 });
 
