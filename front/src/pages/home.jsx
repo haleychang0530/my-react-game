@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from 'axios';
 import "./css/home.css";
 import petImageLow from '../assets/fake_egg.jpg';
 
@@ -18,13 +19,12 @@ export default function HomePage() {
     }
   };
 
-  const fetchPetStatus = async (e) => {
-    e.preventDefault();
+  const fetchPetStatus = async () => {
     try {
       const res = await axios.get(`${API_URL}/pet-status`, {params: {username}});
       setHp(res.data.hp);
       setScore(res.data.score);
-      //setRecord(data.record);
+      setRecord(res.data.score);
     } catch (error) {
       console.error("Error fetching pet status:", error);
     }
