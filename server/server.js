@@ -115,7 +115,7 @@ app.post('/updateScore', async (req, res) => {
   const { username, score } = req.body;
 
   try {
-    await client.query('UPDATE players SET score = $1 WHERE username = $2', [score, username]);
+    await client.query('UPDATE players SET score = score + $1 WHERE username = $2', [score, username]);
     res.json({ message: 'Score updated successfully' });
   } catch (err) {
     console.error(err);
