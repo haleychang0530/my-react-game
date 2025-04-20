@@ -46,27 +46,30 @@ app.post('/wakeup', (req, res) => {
 
 // 登入與創建新帳號
 app.post('/createAccount', async (req, res) => {
-    const { username, password} = req.body;
+  const { username, password } = req.body;
+
+  try {
     const userCheck = await client.query(
       'SELECT * FROM players WHERE username = $1', [username]
     );
+
     if (userCheck.rows.length > 0) {
-      return res.status(201).json(result.rows[0]);
+      return res.status(200).json({ message: 'Login successfully', user: userCheck.rows[0] });
     }
-    try {
-        const result = await client.query(
-            'INSERT INTO players (username, password, petname, hp, score) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-            [username, password, 'Cutie', 100, 1000]
-        );
-        res.status(201).json(result.rows[0]);
-    } catch (err) {
-        console.log(err);
-       if (err.code === '23505') {  //NOT UNIQUE error
-            res.status(409).json({ message: 'Login Successfully!' });
-        }
-      else res.status(500).json({ error: 'Error creating account' });
-    }
+
+    const result = await client.query(
+      'INSERT INTO players (username, password, petname, hp, score) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      [username, password, 'Cutie', 100, 1000]
+    );
+
+    res.status(201).json({ message: 'Account created', user: result.rows[0] });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error creating account' });
+  }
 });
+
 
 // get all status
 app.get('/pet-status', async (req, res) => {
