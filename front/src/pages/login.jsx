@@ -10,18 +10,26 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try{
-        const response = await axios.post(`${API_URL}/createAccount`, {username, password});
-    } 
-    catch(err){
-          const msg = err.response?.data?.message || "未知錯誤";
-          setError("發生錯誤： " + msg);
-    }
+const handleLogin = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await axios.post(`${API_URL}/createAccount`, {
+      username,
+      password
+    });
+
+    const message = response.data.message;
+    console.log("Server Message:", message);
+
     localStorage.setItem("username", username);
-    navigate("/home"); 
-  };
+    navigate("/home");
+
+  } catch (err) {
+    const msg = err.response?.data?.message || "未知錯誤";
+    setError("發生錯誤： " + msg);
+  }
+};
+
 
   return (
     <div className="pixel-container">
