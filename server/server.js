@@ -35,7 +35,7 @@ const createTableQuery = `
 
   UPDATE players SET score = 0 WHERE score IS NULL;
   ALTER TABLE players DROP CONSTRAINT IF EXISTS players_petname_key;
-  DELETE FROM players WHERE username IS NULL;
+  DELETE FROM players WHERE username = '';
 `;
 
 client.query(createTableQuery)
