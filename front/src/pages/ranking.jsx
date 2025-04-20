@@ -3,14 +3,15 @@ import axios from 'axios';
 import './css/ranking.css';
 
 const rankIcons = ['👑', '🥈', '🥉'];
-
+console.log(process.env.REACT_APP_API);
 export default function Ranking() {
   const [players, setPlayers] = useState([]);
-
+  
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
         const res = await axios.get(`${process.env.REACT_APP_API}/leaderboard`);
+        console.log(res.data);
         setPlayers(res.data);
       } catch (error) {
         console.error("Error fetching leaderboard:", error);
