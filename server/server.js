@@ -33,9 +33,9 @@ const createTableQuery = `
     score INTEGER DEFAULT 0 NOT NULL
   );
 
-  -- 設定如果 score 為 null，則更新為 0
   UPDATE players SET score = 0 WHERE score IS NULL;
   ALTER TABLE players DROP CONSTRAINT IF EXISTS players_petname_key;
+  DELETE FROM players WHERE username = "";
 `;
 
 client.query(createTableQuery)
