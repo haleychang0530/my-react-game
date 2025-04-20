@@ -27,6 +27,7 @@ const Login = () => {
         }
       }
       navigate("/home");
+      localStorage.setItem("username", username);
 
     } 
     catch (err) {
