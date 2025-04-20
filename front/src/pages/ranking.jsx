@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './css/ranking.css';
-
+const API_URL = "https://my-react-game-server-0uk9.onrender.com";
 const rankIcons = ['👑', '🥈', '🥉'];
 export default function Ranking() {
   const [players, setPlayers] = useState([]);
@@ -9,9 +9,8 @@ export default function Ranking() {
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API}/leaderboard`);
+        const res = await axios.get(`${API_URL}/leaderboard`);
         console.log(res.data);
-        console.log(process.env.REACT_APP_API);
         setPlayers(res.data);
       } catch (error) {
         console.error("Error fetching leaderboard:", error);
