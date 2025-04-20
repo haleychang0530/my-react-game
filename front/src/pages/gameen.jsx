@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './css/gameen.css';
+import axios from 'axios';
 
 const WORDS = ['dog', 'c']; // 預設單字列表
+const API_URL = "https://my-react-game-server-0uk9.onrender.com";
 
 function Gameen() {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
@@ -41,6 +43,25 @@ function Gameen() {
       return () => clearTimeout(timer);
     }
   }, [showWord]);
+
+   useEffect(() => {
+    const passScore = async () => {
+      try {
+        const username = localStorage.getItem("username");
+        const res = await axios.post(`${API_URL}/updateScore`, {
+          username,
+          correctCount,
+        });
+        console.log(res.data);
+      } catch (error) {
+        console.error("Error uploading score:", error);
+      }
+    };
+
+    if (gameCompleted) {
+      passScore();
+    }
+  }, [gameCompleted]);
 
   const startDrawing = (x, y) => {
     isDrawing.current = true;
@@ -135,34 +156,6 @@ function Gameen() {
     const rect = canvasRef.current.getBoundingClientRect();
     const touch = e.touches[0];
     draw(touch.clientX - rect.left, touch.clientY - rect.top);
-  };
-  
-  const updateSync = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(`${API_URL}/updateScore`, null, {
-        params: {
-          score: correctCount,
-          username
-        }
-      });
-
-      if(!res.data.exists){
-        try{
-          const response = await axios.post(`${API_URL}/createAccount`, {username, password});
-        } 
-        catch(err){
-          setError('發生錯誤： ' + err.response.data.message);
-          return ;
-        }
-      }
-
-      navigate("/home");
-
-    } 
-    catch (err) {
-      setError('登入失敗: ' + err.response.data.message);
-    }
   };
 
   if (gameCompleted) {
