@@ -28,14 +28,15 @@ app.use(express.json());
 
 // 建立用戶資料表（如果資料表不存在）
 const createTableQuery = `
-  CREATE TABLE IF NOT EXISTS players (
-    id SERIAL PRIMARY KEY,-- id
-    username VARCHAR(250) UNIQUE NOT NULL,-- 用戶名
-    password VARCHAR(250) NOT NULL,-- 密碼
-    petname VARCHAR(250) NOT NULL, --寵物名
-    hp INT DEFAULT 100, -- 寵物HP 100
-    score INT DEFAULT 0 -- 用戶分數 0
-);
+  DROP TABLE IF EXISTS players;
+
+  CREATE TABLE players (
+    username TEXT PRIMARY KEY UNIQUE,
+    password TEXT NOT NULL,
+    petname TEXT DEFAULT 'Cutie',
+    hp INTEGER DEFAULT 100,
+    score INTEGER DEFAULT 0
+  );
 `;
 
 client.query(createTableQuery)
