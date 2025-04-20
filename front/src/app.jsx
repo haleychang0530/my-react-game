@@ -32,7 +32,7 @@ const PageWithNavbar = ({ children }) => {
   return (
     <div>
       {/* 只有在 /home、/game、/ranking 顯示 Navbar */}
-      {(location.pathname === '/home' || location.pathname === '/gameen' || location.pathname === '/ranking' || location.pathname === '/gamech') && <Navbar />}
+      {(location.pathname === '/home' || location.pathname === '/gameen' || location.pathname === '/ranking' || location.pathname === '/gamech' || location.pathname === '/writingch') && <Navbar />}
       {children}
     </div>
   );
