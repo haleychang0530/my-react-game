@@ -61,7 +61,7 @@ app.post('/createAccount', async (req, res) => {
     } catch (err) {
         console.log(err);
        if (err.code === '23505') {  //NOT UNIQUE error
-            res.status(400).json({ message: 'Login Successfully!' });
+            res.status(201).json({ message: 'Login Successfully!' });
         }
         else res.status(500).json({ error: 'Error creating account' });
     }
