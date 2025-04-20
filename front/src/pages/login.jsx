@@ -12,27 +12,15 @@ const Login = () => {
   
   const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.get(`${API_URL}/checkUnique`, {
-        params: { username }
-      });
-
-      if(!res.data.exists){
-        try{
-          const response = await axios.post(`${API_URL}/createAccount`, {username, password});
-        } 
-        catch(err){
-          setError('發生錯誤： ' + err.response.data.message);
-          return ;
-        }
-      }
-
-      localStorage.setItem("username", username);
-      navigate("/home");
+    try{
+        const response = await axios.post(`${API_URL}/createAccount`, {username, password});
     } 
-    catch (err) {
-      setError('登入失敗: ' + err.response.data.message);
+    catch(err){
+          const msg = err.response?.data?.message || "未知錯誤";
+          setError("發生錯誤： " + msg);
     }
+    localStorage.setItem("username", username);
+    navigate("/home"); 
   };
 
   return (
