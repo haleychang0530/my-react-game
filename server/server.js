@@ -32,7 +32,7 @@ const createTableQuery = `
     id SERIAL PRIMARY KEY,-- id
     username VARCHAR(250) UNIQUE NOT NULL,-- 用戶名
     password VARCHAR(250) NOT NULL,-- 密碼
-    petname VARCHAR(250) UNIQUE NOT NULL, --寵物名
+    petname VARCHAR(250) NOT NULL, --寵物名
     hp INT DEFAULT 100, -- 寵物HP 100
     score INT DEFAULT 0 -- 用戶分數 0
 );
@@ -48,7 +48,6 @@ app.post('/wakeup', (req, res) => {
     res.send('"ok!"');
 });
 
-
 // 登入與創建新帳號
 app.post('/createAccount', async (req, res) => {
     const { username, password} = req.body;
@@ -61,7 +60,7 @@ app.post('/createAccount', async (req, res) => {
     } catch (err) {
         console.log(err);
        if (err.code === '23505') {  //NOT UNIQUE error
-            res.status(201).json({ message: 'Login Successfully!' });
+            res.status(409).json({ message: 'Login Successfully!' });
         }
         else res.status(500).json({ error: 'Error creating account' });
     }
