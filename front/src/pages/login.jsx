@@ -12,7 +12,6 @@ const Login = () => {
   
   const handleLogin = async (e) => {
     e.preventDefault();
-    const username = localStorage.username;
     try {
       const res = await axios.get(`${API_URL}/checkUnique`, {
         params: { username }
@@ -27,7 +26,6 @@ const Login = () => {
           return ;
         }
       }
-
       navigate("/home");
 
     } 
