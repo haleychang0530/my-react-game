@@ -113,15 +113,18 @@ app.get('/getScore', async (req, res) => {
 // 更新玩家分數
 app.post('/updateScore', async (req, res) => {
   const { username, score } = req.body;
-
+  const finalScore = (typeof score === 'number' && !isNaN(score)) ? score : 0;
   try {
-    await client.query('UPDATE players SET score = score + $1 WHERE username = $2', [score, username]);
-    res.json({ message: 'Score updated successfully' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Failed to update score' });
+    const result = await pool.query(
+      'UPDATE users SET score = $1 WHERE username = $2 RETURNING *',
+      [finalScore, username]
+    );
+    res.json({ success: true, user: result.rows[0], message: 'Upload score success!' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'update failed.' });
   }
 });
+
 
 // 獲取排行榜
 app.get('/leaderboard', async (req, res) => {
