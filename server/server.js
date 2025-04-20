@@ -112,20 +112,15 @@ app.get('/getScore', async (req, res) => {
 
 // 更新玩家分數
 app.post('/updateScore', async (req, res) => {
-    const { username, hp, score } = req.body;
-    try {
-        const result = await client.query(
-            'UPDATE players SET score = score + $1 WHERE username = $2 AND hp = $3 RETURNING *',
-            [score, username, hp]
-        );
-        if (result.rows.length > 0) {
-            return res.json(result.rows[0]);
-        }
-        res.status(404).json({ error: 'Player not found' });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: 'Internal server error' });
-    }
+  const { username, score } = req.body;
+
+  try {
+    await client.query('UPDATE players SET score = $1 WHERE username = $2', [score, username]);
+    res.json({ message: 'Score updated successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to update score' });
+  }
 });
 
 // 獲取排行榜
