@@ -1,69 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React from 'react';
+import './css/ranking.css'; // 匯入像素風CSS
 
-const Ranking = () => {
-  const navigate = useNavigate();
-  const [leaderboard, setLeaderboard] = useState([]);
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
+const playerData = [
+  { name: 'Anryl', hp: 80, score: 1500 },
+  { name: '123', hp: 95, score: 1800 },
+  { name: 'Test3', hp: 60, score: 1200 },
+  { name: 'AnYI', hp: 70, score: 1400 },
+  { name: 'Chen', hp: 100, score: 2000 },
+];
 
-  useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/leaderboard`);
-        setLeaderboard(response.data); 
-        setLoading(false); 
-      } catch (err) {
-        setError('Failed to fetch leaderboard data');
-        setLoading(false); 
-    }};
-    fetchLeaderboard();
-  }, []) ; 
+const sortedPlayers = [...playerData].sort((a, b) => b.score - a.score);
 
-  if (loading) {
-    return <div>Loading...</div>; 
-  }
+const rankIcons = ['👑', '🥈', '🥉'];
 
-  if (error) {
-    return <div>{error}</div>;
-  }
-
+export default function Ranking() {
   return (
-    <div>
-      <h1>Ranking</h1>
-      <div>
-        <h2>Top 3 Players</h2>
-        {leaderboard.slice(0, 3).map((player, index) => (
-          <p key={player.id}>
-            {index + 1}st Place: {player.username} - {player.score} points
-          </p>
+    <div className="ranking-container">
+      <h1 className="ranking-title">🏆 排行榜</h1>
+      <div className="ranking-list">
+        {sortedPlayers.map((player, index) => (
+          <div
+            key={player.name}
+            className={`ranking-item ${
+              index === 0
+                ? 'first'
+                : index === 1
+                ? 'second'
+                : index === 2
+                ? 'third'
+                : ''
+            }`}
+          >
+            <div className="rank-left">
+              <span className="rank-icon">{rankIcons[index] || index + 1}</span>
+              <span className="player-name">{player.name}</span>
+            </div>
+            <div className="rank-right">
+              <div>❤️ HP: {player.hp}</div>
+              <div>⭐ Score: {player.score}</div>
+            </div>
+          </div>
         ))}
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Score</th>
-            <th>Pet Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {leaderboard.map((player) => (
-            <tr key={player.id}>
-              <td>{player.id}</td>
-              <td>{player.username}</td>
-              <td>{player.score}</td>
-              <td>{player.hp > 0 ? 'Healthy' : 'Unhealthy'}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <button onClick={() => navigate('/home')}>Home</button>
-      <button onClick={() => navigate('/game')}>Game</button>
     </div>
   );
-};
-
-export default Ranking;
+}
