@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import "./css/gamech.css";
+
+const API_URL = "https://my-react-game-server-0uk9.onrender.com";
 
 // 題目資料
 const questions = [
@@ -17,24 +20,23 @@ const ChooseAnswerGame = () => {
   const [gameOver, setGameOver] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
-
   const navigate = useNavigate();
   const currentQuestion = questions[currentIndex];
 
   const handleOptionClick = (option) => {
-    if (selectedOption !== null) return; // 避免重複點擊
+    if (selectedOption !== null) return;
 
     const isCorrect = option === currentQuestion.answer;
     setSelectedOption(option);
     setSelectedStatus(isCorrect ? 'correct' : 'wrong');
 
     if (isCorrect) {
-      setScore(score + 1);
+      setScore((prev) => prev + 1);
     }
 
     setTimeout(() => {
       if (currentIndex < questions.length - 1) {
-        setCurrentIndex(currentIndex + 1);
+        setCurrentIndex((prev) => prev + 1);
         setSelectedOption(null);
         setSelectedStatus(null);
       } else {
@@ -50,6 +52,25 @@ const ChooseAnswerGame = () => {
     setSelectedOption(null);
     setSelectedStatus(null);
   };
+
+  useEffect(() => {
+    const passScore = async () => {
+      try {
+        const username = localStorage.getItem("username");
+        const res = await axios.post(`${API_URL}/updateScore`, {
+          username,
+          score,
+        });
+        console.log(res.data);
+      } catch (error) {
+        console.error("Error uploading score:", error);
+      }
+    };
+
+    if (gameOver) {
+      passScore();
+    }
+  }, [gameOver]);
 
   return (
     <div className="game-wrapper">
