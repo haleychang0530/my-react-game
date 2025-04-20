@@ -28,8 +28,6 @@ app.use(express.json());
 
 // 建立用戶資料表（如果資料表不存在）
 const createTableQuery = `
-  DROP TABLE IF EXISTS players;
-
   CREATE TABLE players (
     username TEXT PRIMARY KEY UNIQUE,
     password TEXT NOT NULL,
