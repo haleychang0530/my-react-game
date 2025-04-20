@@ -131,7 +131,7 @@ app.post('/updateScore', async (req, res) => {
 // 獲取排行榜
 app.get('/leaderboard', async (req, res) => {
     try {
-        const result = await client.query('SELECT * FROM players ORDER BY score DESC');
+        const result = await client.query('SELECT username, hp, score FROM players ORDER BY score DESC');
         res.json(result.rows);
     } catch (err) {
         console.log(err);
