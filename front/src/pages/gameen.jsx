@@ -140,8 +140,11 @@ function Gameen() {
   const updateSync = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${API_URL}/updateScore`, { 
-        params: { (correctCount).json() }
+      const res = await axios.post(`${API_URL}/updateScore`, null, {
+        params: {
+          score: correctCount,
+          username
+        }
       });
 
       if(!res.data.exists){
