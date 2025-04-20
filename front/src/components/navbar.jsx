@@ -15,6 +15,7 @@ const Navbar = () => {
           <li><Link to="/ranking">排行榜🪽</Link></li>
           <li><Link to="/gamech">中文練習🐤</Link></li>
           <li><Link to="/gameen">英文練習🐥</Link></li>
+          <li><Link to="/writingch">寫字練習🍳</Link></li>
       </ul>
     </nav>
   );
