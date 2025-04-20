@@ -50,7 +50,7 @@ function Gameen() {
         const username = localStorage.getItem("username");
         const res = await axios.post(`${API_URL}/updateScore`, {
           username,
-          correctCount,
+          score: correctCount,
         });
         console.log(res.data);
       } catch (error) {
