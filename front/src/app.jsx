@@ -18,6 +18,7 @@ function App() {
         <Route path="/home" element={<PageWithNavbar><Home /></PageWithNavbar>} />
         <Route path="/gameen" element={<PageWithNavbar><GameEn /></PageWithNavbar>} />
         <Route path="/gamech" element={<PageWithNavbar><GameCh /></PageWithNavbar>} />
+        <Route path="/writingch" element={<PageWithNavbar><WritingCh /></PageWithNavbar>} />
         <Route path="/ranking" element={<PageWithNavbar><Ranking /></PageWithNavbar>} />
       </Routes>
     </Router>
@@ -31,7 +32,7 @@ const PageWithNavbar = ({ children }) => {
   return (
     <div>
       {/* 只有在 /home、/game、/ranking 顯示 Navbar */}
-      {(location.pathname === '/home' || location.pathname === '/gameen' || location.pathname === '/ranking' || location.pathname === '/gamech') && <Navbar />}
+      {(location.pathname === '/home' || location.pathname === '/gameen' || location.pathname === '/ranking' || location.pathname === '/gamech' || location.pathname === '/writingch') && <Navbar />}
       {children}
     </div>
   );

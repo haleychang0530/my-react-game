@@ -70,6 +70,7 @@ export default function WritingCh() {
   // 判斷是否有繪圖
   const handleCheck = async () => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const data = canvas.toDataURL('image/png');
     const hasDrawing = data && !data.includes('iVBORw0KGgoAAAANSUhEUgAAAAEAAAAB');
     setMessage(hasDrawing ? '通過 ✅' : '再試一次 ❌');
@@ -78,6 +79,7 @@ export default function WritingCh() {
   // 清除畫布
   const handleClear = () => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const ctx = ctxRef.current;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     setMessage('');
@@ -111,6 +113,7 @@ export default function WritingCh() {
   // 下載圖片
   const handleDownload = () => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
     const dataUrl = canvas.toDataURL('image/png');
     const link = document.createElement('a');
     link.href = dataUrl;
@@ -123,6 +126,7 @@ export default function WritingCh() {
   // 初始化畫布
   const resizeCanvas = () => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.offsetHeight;
     initCanvas();
