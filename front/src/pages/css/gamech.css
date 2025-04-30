@@ -76,4 +76,20 @@
     background-color: #7f8c8d;
     cursor: not-allowed;
   }
+
+/*倒數相關*/
+.timer-bar {
+  height: 10px;
+  width: 100%;
+  background-color: #ddd;
+  margin: 10px 0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.timer-fill {
+  height: 100%;
+  background-color: #4caf50;
+  transition: width 1s linear;
+}
   
