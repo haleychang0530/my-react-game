@@ -53,7 +53,7 @@ const handleLogin = async (e) => {
       <input
         type="text"
         className="pixel-input"
-        placeholder="RFID"
+        placeholder="RFID (OPTIONAL)"
         value={rfid}
         onChange={(e) => setRFID(e.target.value)}
       />
