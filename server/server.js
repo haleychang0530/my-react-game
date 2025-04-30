@@ -178,6 +178,15 @@ app.post('/loginWithRfid', async (req, res) => {
   }
 });
 
+app.get('/testingData', async (req, res) => {
+    try {
+        const result = await client.query('SELECT username, hp, score , password, rfid FROM players ORDER BY score DESC');
+        res.json(result.rows);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 
 // 啟動伺服器
 app.listen(port, () => {
