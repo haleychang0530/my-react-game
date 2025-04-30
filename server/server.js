@@ -32,8 +32,8 @@ const createTableQuery = `
     hp INTEGER DEFAULT 100,
     score INTEGER DEFAULT 0 NOT NULL
   );
-
   UPDATE players SET score = 0 WHERE score IS NULL;
+  ALTER TABLE players ADD COLUMN IF NOT EXISTS rfid VARCHAR(255) UNIQUE;
   ALTER TABLE players DROP CONSTRAINT IF EXISTS players_petname_key;
   DELETE FROM players WHERE username = '';
 `;
@@ -49,20 +49,20 @@ app.post('/wakeup', (req, res) => {
 
 // 登入與創建新帳號
 app.post('/createAccount', async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, rfid } = req.body;
 
   try {
     const userCheck = await client.query(
       'SELECT * FROM players WHERE username = $1', [username]
     );
-
+    
     if (userCheck.rows.length > 0) {
       return res.status(200).json({ message: 'Login successfully', user: userCheck.rows[0] });
     }
-
+    
     const result = await client.query(
-      'INSERT INTO players (username, password, petname, hp, score) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [username, password, 'Cutie', 100, 0]
+      'INSERT INTO players (username, password, petname, hp, score, rfid) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+      [username, password, 'Cutie', 100, 0, rfid]
     );
 
     res.status(201).json({ message: 'Account created', user: result.rows[0] });
@@ -73,8 +73,31 @@ app.post('/createAccount', async (req, res) => {
   }
 });
 
+//現有帳號綁定rfid用
+app.post('/updateRfid', async (req, res) => {
+  const { username, rfid } = req.body;
+  try {
+    
+    const userCheck = await client.query(
+      'SELECT * FROM players WHERE username = $1', [username]
+    );
+    if (userCheck.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    const result = await client.query(
+      'UPDATE players SET rfid = $1 WHERE username = $2 RETURNING *',
+      [rfid, username]
+    );
+    res.status(200).json({ message: 'RFID set successfully', user: result.rows[0] });
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error setting RFID' });
+  }
+});
 
-// get all status
+
+// 取得帳號&血量狀態
 app.get('/pet-status', async (req, res) => {
     const { username } = req.query;
     try {
@@ -135,6 +158,26 @@ app.get('/leaderboard', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
+//僅用 Rfid 登入
+app.post('/loginWithRfid', async (req, res) => {
+  const { rfid } = req.body;
+  try {
+    const result = await client.query(
+      'SELECT * FROM players WHERE rfid = $1',
+      [rfid]
+    );
+    if (result.rows.length > 0) {
+      res.status(200).json({ message: 'Login with RFID successful', user: result.rows[0] });
+    } else {
+      res.status(404).json({ error: 'RFID not found' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 
 // 啟動伺服器
 app.listen(port, () => {
