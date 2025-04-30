@@ -7,6 +7,7 @@ const API_URL = "https://my-react-game-server-0uk9.onrender.com";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [rfid, setRFID] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
   
@@ -15,7 +16,8 @@ const handleLogin = async (e) => {
   try {
     const response = await axios.post(`${API_URL}/createAccount`, {
       username,
-      password
+      password,
+      rfid
     });
 
     const message = response.data.message;
@@ -47,6 +49,13 @@ const handleLogin = async (e) => {
         placeholder="PASSWORD"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+      />
+      <input
+        type="text"
+        className="pixel-input"
+        placeholder="RFID"
+        value={rfid}
+        onChange={(e) => setRFID(e.target.value)}
       />
       {error && <p className="pixel-error">{error}</p>}
       <button className="pixel-button" onClick={handleLogin}>
