@@ -1,0 +1,101 @@
+/* 基本設置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Press Start 2P', cursive; /* 像素風格字體 */
+  }
+  
+  /* 背景設置 */
+  body {
+    background-color: white;
+    color: white;
+    font-size: 16px;
+  }
+  
+  /* 容器設置 */
+  .pixel-border {
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: -100px;/* 上移 */
+    background-color: #333333;
+    min-width: 500px; 
+    max-width: 150%; /* 防止太大 */
+    min-height: 350px;
+  }
+  
+  /* 標題樣式 */
+  h2 {
+    font-size: 30px;
+    color: #ffcc00; /* 黃色標題 */
+    margin-bottom: 20px;
+  }
+  
+  /* 顯示文本樣式 */
+  .pixel-font {
+    font-size: 20px;
+    
+  }
+  
+  .text-yellow-300 {
+    color: #ffefa4; 
+  }
+  
+  .text-blue-300 {
+    color: #ffefa4; 
+  }
+  
+  .text-green-300 {
+    color: #ffefa4; 
+  }
+  
+ 
+  img {
+    border-radius: 8px;
+    width: 350px;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+  }
+  
+  .pixel-button {
+    font-size: 14px;
+    color: white;
+    background-color: #ff6600; 
+    border: 2px solid #f0f0f0;
+    padding: 5px 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .pixel-button:hover {
+    background-color: #ff9933; 
+    transform: scale(1.1);
+  }
+  
+  /* 顯示欄位的間距 */
+  .space-y-2 {
+    margin-bottom: 10px;
+  }
+  
+  /* 中央顯示設置 */
+  .flex {
+    display: flex;
+  }
+  
+  .justify-center {
+    justify-content: center;
+  }
+  
+  .items-center {
+    align-items: center;
+  }
+  
+  .h-screen {
+    height: 100vh;
+  }
+  
