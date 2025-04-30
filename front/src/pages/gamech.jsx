@@ -20,7 +20,7 @@ const ChooseAnswerGame = () => {
   const [gameOver, setGameOver] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
-  const [timeLeft, setTimeLeft] = useState(5);
+  const [timeLeft, setTimeLeft] = useState(10);
   const navigate = useNavigate();
   const currentQuestion = questions[currentIndex];
 
@@ -40,7 +40,7 @@ const ChooseAnswerGame = () => {
         setCurrentIndex((prev) => prev + 1);
         setSelectedOption(null);
         setSelectedStatus(null);
-        setTimeOut(5);
+        setTimeOut(10);
       } else {
         setGameOver(true);
       }
@@ -53,7 +53,7 @@ const ChooseAnswerGame = () => {
     setGameOver(false);
     setSelectedOption(null);
     setSelectedStatus(null);
-    setTimeOut(5);
+    setTimeOut(10);
   };
 
   useEffect(() => {
@@ -86,7 +86,7 @@ const ChooseAnswerGame = () => {
           setCurrentIndex((prev) => prev + 1);
           setSelectedOption(null);
           setSelectedStatus(null);
-          setTimeLeft(5);
+          setTimeLeft(10);
         } else {
           setGameOver(true);
         }
@@ -102,20 +102,22 @@ const ChooseAnswerGame = () => {
   }, [timeLeft, selectedOption, gameOver]);
 
   useEffect(() => {
-    setTimeLeft(5);
+    setTimeLeft(10);
   }, [currentIndex]);
 
   
   return (
     <div className="game-wrapper">
       <div className="game-container">
-        <div
-          className="timer-fill"
-          style={{ width: `${(timeLeft / 5) * 100}%` }}
+         {!gameOver && (
+          <div  
+            className="timer-fill"
+            style={{ width: `${(timeLeft / 10) * 100}%` }}
         ></div>
         <h1>得分: {score}</h1>
         <div className="timer-bar">
       </div>
+        )}
         {gameOver ? (
           <div className="game-over">
             <h2>遊戲結束！最終得分: {score}</h2>
