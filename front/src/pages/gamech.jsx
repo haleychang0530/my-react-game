@@ -109,12 +109,12 @@ const ChooseAnswerGame = () => {
   return (
     <div className="game-wrapper">
       <div className="game-container">
-        <h1>得分: {score}</h1>
-        <div className="timer-bar">
         <div
           className="timer-fill"
           style={{ width: `${(timeLeft / 5) * 100}%` }}
         ></div>
+        <h1>得分: {score}</h1>
+        <div className="timer-bar">
       </div>
         {gameOver ? (
           <div className="game-over">
