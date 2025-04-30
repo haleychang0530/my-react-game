@@ -110,14 +110,14 @@ const ChooseAnswerGame = () => {
     <div className="game-wrapper">
       <div className="game-container">
          {!gameOver && (
+          <div className="timer-bar">
           <div  
             className="timer-fill"
             style={{ width: `${(timeLeft / 10) * 100}%` }}
-        ></div>
-        <h1>得分: {score}</h1>
-        <div className="timer-bar">
-      </div>
+          ></div>
+        </div>
         )}
+        <h1>得分: {score}</h1>
         {gameOver ? (
           <div className="game-over">
             <h2>遊戲結束！最終得分: {score}</h2>
