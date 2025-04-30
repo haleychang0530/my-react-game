@@ -20,6 +20,7 @@ const ChooseAnswerGame = () => {
   const [gameOver, setGameOver] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(5);
   const navigate = useNavigate();
   const currentQuestion = questions[currentIndex];
 
@@ -39,6 +40,7 @@ const ChooseAnswerGame = () => {
         setCurrentIndex((prev) => prev + 1);
         setSelectedOption(null);
         setSelectedStatus(null);
+        setTimeOut(5);
       } else {
         setGameOver(true);
       }
@@ -51,6 +53,7 @@ const ChooseAnswerGame = () => {
     setGameOver(false);
     setSelectedOption(null);
     setSelectedStatus(null);
+    setTimeOut(5);
   };
 
   useEffect(() => {
@@ -72,6 +75,37 @@ const ChooseAnswerGame = () => {
     }
   }, [gameOver]);
 
+  useEffect(() => {
+    if (gameOver || selectedOption !== null) return;
+
+    if (timeLeft === 0) {
+      setSelectedOption("TimeOut");
+      setSelectedStatus("wrong");
+      setTimeout(() => {
+        if (currentIndex < questions.length - 1) {
+          setCurrentIndex((prev) => prev + 1);
+          setSelectedOption(null);
+          setSelectedStatus(null);
+          setTimeLeft(5);
+        } else {
+          setGameOver(true);
+        }
+      }, 1000);
+      return;
+    }
+    
+    const timer = setTimeout(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [timeLeft, selectedOption, gameOver]);
+
+  useEffect(() => {
+    setTimeLeft(5);
+  }, [currentIndex]);
+
+  
   return (
     <div className="game-wrapper">
       <div className="game-container">
