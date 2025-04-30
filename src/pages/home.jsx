@@ -1,19 +1,31 @@
 import { useState, useEffect } from "react";
 import "./css/home.css";
-import petImageLow from '../assets/fake_egg.jpg';
+import petImage_Initial from '../assets/chick_status/initial/initial_egg.png';
+import petImage_Low from '../assets/chick_status/grown/chick.png';
+import petImage_Initial_HpLow from '../assets/chick_status/edible/fried_egg.png';
+import petImage_Low_HpLow from '../assets/chick_status/edible/roasted_chicken.png';
+import petImage_High from '../assets/chick_status/grown/chick.png';
 
 export default function HomePage() {
   const [hp, setHp] = useState(100);
   const [score, setScore] = useState(0);
 
   // 根據 record 顯示不同的寵物圖片
-  const getPetImage = (score) => {
-    if (score < 1000) {
-      return petImageLow; 
-    } else if (score < 5000) {
-      return petImageLow;
-    } else {
-      return petImageLow;
+  const getPetImage = (score, hp) => {
+    if (score < 800 && hp < 80) {
+      return petImage_Initial_HpLow; 
+    } 
+    else if (score < 800 && hp >= 80) {
+      return petImage_Initial;
+    } 
+    else if (score < 1000 && hp < 80) {
+      return petImage_Low_HpLow;
+    }
+    else if (score < 1000 && hp >= 80) {
+      return petImage_Low;
+    } 
+    else {
+      return petImage_High;
     }
   };
 
@@ -25,7 +37,7 @@ export default function HomePage() {
       // const data = await res.json();
 
       // 現在用假數據
-      const fakeData = { hp: 80, score: 1200};
+      const fakeData = { hp: 90, score: 900};
       setHp(fakeData.hp);
       setScore(fakeData.score);
 
@@ -40,7 +52,7 @@ export default function HomePage() {
   }, []);
 
   // 根據 record 決定顯示的寵物圖片
-  const petImage = getPetImage(score);
+  const petImage = getPetImage(score, hp);
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-800">
