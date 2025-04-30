@@ -17,20 +17,14 @@ client.connect()
   .then(() => console.log('PostgreSQL Connected'))
   .catch(err => console.log(err));
 
-// 允許來自前端網站的請求
-
+// 允許來自(所有)前端網站的請求
 app.use(cors());
-
-app.use(cors({
-  origin: '', 
-}));
 
 // 解析 JSON 請求
 app.use(express.json());
 
 // 建立用戶資料表（如果資料表不存在）
 const createTableQuery = `
-
   CREATE TABLE IF NOT EXISTS players(
     id SERIAL PRIMARY KEY, -- id
     username VARCHAR(250) UNIQUE NOT NULL,
@@ -43,16 +37,6 @@ const createTableQuery = `
   ALTER TABLE players ADD COLUMN IF NOT EXISTS rfid VARCHAR(255) UNIQUE;
   ALTER TABLE players DROP CONSTRAINT IF EXISTS players_petname_key;
   DELETE FROM players WHERE username = '';
-
-  CREATE TABLE IF NOT EXISTS players (
-    id SERIAL PRIMARY KEY,-- id
-    username VARCHAR(250) UNIQUE NOT NULL,-- 用戶名
-    password VARCHAR(250) NOT NULL,-- 密碼
-    petname VARCHAR(250) UNIQUE NOT NULL, --寵物名
-    hp INT DEFAULT 100, -- 寵物HP 100
-    score INT DEFAULT 0 -- 用戶分數 0
-);
-
 `;
 
 client.query(createTableQuery)
@@ -73,7 +57,6 @@ app.post('/createAccount', async (req, res) => {
     const userCheck = await client.query(
       'SELECT * FROM players WHERE username = $1', [username]
     );
-    
     if (userCheck.rows.length > 0) {
       return res.status(200).json({ message: 'Login successfully', user: userCheck.rows[0] });
     }
@@ -102,10 +85,12 @@ app.post('/updateRfid', async (req, res) => {
     if (userCheck.rows.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
+    
     const result = await client.query(
       'UPDATE players SET rfid = $1 WHERE username = $2 RETURNING *',
       [rfid, username]
     );
+    
     res.status(200).json({ message: 'RFID set successfully', user: result.rows[0] });
     
   } catch (err) {
@@ -113,7 +98,6 @@ app.post('/updateRfid', async (req, res) => {
     res.status(500).json({ error: 'Error setting RFID' });
   }
 });
-
 
 // 取得帳號&血量狀態
 app.get('/pet-status', async (req, res) => {
@@ -133,6 +117,7 @@ app.get('/pet-status', async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).json({ error: 'Internal server error' });
+    }};
 
 // 創建新帳號
 app.post('/createAccount', async (req, res) => {
@@ -189,24 +174,12 @@ app.get('/leaderboard', async (req, res) => {
     try {
         const result = await client.query('SELECT username, hp, score FROM players ORDER BY score DESC');
         res.json(result.rows);
-
-    const { username, petname, score } = req.body;
-    try {
-        const result = await client.query(
-            'UPDATE players SET score = score + $1 WHERE username = $2 AND petname = $3 RETURNING *',
-            [score, username, petname]
-        );
-        if (result.rows.length > 0) {
-            return res.json(result.rows[0]);
-        }
-        res.status(404).json({ error: 'Player not found' });
-
+      
     } catch (err) {
         console.log(err);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-
 
 //僅用 Rfid 登入
 app.post('/loginWithRfid', async (req, res) => {
@@ -230,12 +203,6 @@ app.post('/loginWithRfid', async (req, res) => {
 app.get('/testingData', async (req, res) => {
     try {
         const result = await client.query('SELECT username, hp, score , password, rfid FROM players ORDER BY score DESC');
-
-// 獲取排行榜
-app.get('/leaderboard', async (req, res) => {
-    try {
-        const result = await client.query('SELECT * FROM players ORDER BY score DESC');
-
         res.json(result.rows);
     } catch (err) {
         console.log(err);
