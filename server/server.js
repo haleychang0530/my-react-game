@@ -211,7 +211,6 @@ app.listen(port, () => {
 setInterval(async () => {
   try {
     await client.query('UPDATE players SET timespan = timespan + 1 WHERE is_online = TRUE');
-    console.log('Counting timespan for online players');
   } catch (err) {
     console.error('Error updating timespan :', err);
   }
