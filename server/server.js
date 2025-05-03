@@ -117,7 +117,8 @@ app.get('/pet-status', async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(500).json({ error: 'Internal server error' });
-    }};
+      }
+    });
 
 // 創建新帳號
 app.post('/createAccount', async (req, res) => {
@@ -217,3 +218,4 @@ app.listen(port, () => {
 
     console.log(`Server is running at http://localhost:${port}`);
 
+})
