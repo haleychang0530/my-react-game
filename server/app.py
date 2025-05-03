@@ -14,7 +14,8 @@ app = Flask(__name__)
 # 設定
 CORS(app, resources={r"/api/*": {"origins": [
                                   "http://localhost:5173",
-                                  "http://localhost:5174"
+                                  "http://localhost:5174",
+                                  "http://localhost:5175"
                                  ]}})
 logging.basicConfig(level=logging.INFO,
                      format="%(asctime)s - %(levelname)s - %(message)s"

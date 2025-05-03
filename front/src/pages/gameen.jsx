@@ -150,20 +150,15 @@ function Gameen() {
     const touch = e.touches[0];
     draw(touch.clientX - rect.left, touch.clientY - rect.top);
   };
+ 
 
   //安 handleSubmitToServer
   // 這個函數會將畫布上的圖像傳送到伺服器進行辨識
   const handleSubmitToServer = async () => {
     if (!canvasRef.current) return;
-  
-    /*
-    // 1️⃣ 檢查是否有畫任何筆劃（避免 "No stroke found!"）
-    const paths = await canvasRef.current.exportPaths();
-    if (paths.length === 0) {
-      alert("⚠️ 請先寫一個字再送出！");
-      return;
-    }
-  */
+    
+    
+    console.log("在意你是否愛我")
     try {
       setinfoStatus("loading"); // 2️⃣ 顯示 Loading 狀態（你可以搭配動畫或文字）
   
@@ -208,10 +203,9 @@ function Gameen() {
     }  
  
   }
-
   //安 clear函數 end
   
-  //安 clear函數
+  //安 next函數
   const next = () => {
     // 檢查是否完成當前單字
     if (currentLetterIndex === currentWord.length - 1) {
@@ -236,7 +230,7 @@ function Gameen() {
     
   }
 
-  //安 clear函數 end
+  //安 next函數 end
   if (gameCompleted) {
     return (
       <div className="game-stats">
@@ -276,7 +270,7 @@ function Gameen() {
       </div>
       <div className="description">
         {letter_YorN &&(
-          <div className={`infoStatus ${infoStatus}`}>
+          <div className={`letter_YorN ${letter_YorN}`}>
           {letter_YorN === 'Y' && '✅ 正確!'}
           {letter_YorN === 'N' && '❌ 不正確，請再試一次'}
           </div>
