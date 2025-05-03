@@ -35,7 +35,7 @@ const createTableQuery = `
   );
   UPDATE players SET score = 0 WHERE score IS NULL;
   ALTER TABLE players ADD COLUMN IF NOT EXISTS rfid VARCHAR(255) UNIQUE;
-  ALTER TABLE players ADD COLUMN IF NOT EXISTS isOnline BOOLEAN DEFAULT FALSE;
+  ALTER TABLE players ADD COLUMN IF NOT EXISTS is_online BOOLEAN DEFAULT FALSE;
   ALTER TABLE players ADD COLUMN IF NOT EXISTS timespan INT DEFAULT 0;
   ALTER TABLE players DROP CONSTRAINT IF EXISTS players_petname_key;
   DELETE FROM players WHERE username = '';
