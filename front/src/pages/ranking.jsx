@@ -21,9 +21,6 @@ export default function Ranking() {
   }, []);
 
   const sortedPlayers = [...players].sort((a, b) => b.score - a.score);
-  const hours = Math.floor(player.timespan / 3600); 
-  const minutes = Math.floor((player.timespan % 3600) / 60); 
-  const seconds = player.timespan % 60;
 
   return (
     <div className="ranking-container">
@@ -43,7 +40,7 @@ export default function Ranking() {
             <div className="rank-right">
               <div>❤️ HP: {player.hp}</div>
               <div>⭐ Score: {player.score}</div>
-             <div>⏳ Time Spent: {hours}:{minutes < 10 ? '0' + minutes : minutes}:{seconds < 10 ? '0' + seconds : seconds}</div>
+             <div>⏳ Time Spent: {Math.floor(player.timespan / 3600)}:{Math.floor((player.timespan % 3600) / 60)}:{player.timespan % 60}</div>
             </div>
           </div>
         ))}

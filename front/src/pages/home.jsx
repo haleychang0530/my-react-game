@@ -16,10 +16,8 @@ export default function HomePage() {
       return petImageLow;
     } else {
       return petImageLow;
-
     }
   };
-
 
   const fetchPetStatus = async () => {
     try {
