@@ -17,13 +17,13 @@ export default function HomePage() {
     if (score < 80 && hp < 80) {
       return petImage_Initial_HpLow; 
     } 
-    else if (score < 80 && hp >= 80) {
+    else if (score < 30 && hp >= 80) {
       return petImage_Initial;
     } 
-    else if (score < 100 && hp < 80) {
+    else if (score < 50 && hp >= 80) {
       return petImage_Low_HpLow;
     }
-    else if (score < 100 && hp >= 80) {
+    else if (score < 70 && hp >= 80) {
       return petImage_Low;
     } 
     else {

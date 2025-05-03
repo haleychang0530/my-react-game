@@ -178,11 +178,15 @@ app.post('/loginWithRfid', async (req, res) => {
   const { rfid } = req.body;
   try {
     const result = await client.query(
-      'SELECT * FROM players WHERE rfid = $1',
+      'SELECT * FROM players WHERE rfid = $1 ',
       [rfid]
     );
     if (result.rows.length > 0) {
-      res.status(200).json({ message: 'Login with RFID successful', user: result.rows[0] });
+      await client.query(
+        'UPDATE players SET is_online = TRUE WHERE rfid = $1',
+        [rfid]
+      );
+      res.status(200).json({ message: 'Login with RFID successful', rfid: result.rows[0] });
     } else {
       res.status(404).json({ error: 'RFID not found' });
     }
