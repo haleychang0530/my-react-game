@@ -15,16 +15,21 @@ export default function WritingCh() {
   const [isFinished, setIsFinished] = useState(false);
   const canvasRef = useRef(null);
   const isDrawing = useRef(false);
-
+  const ctxRef = useRef(null);
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext('2d');
       
-    ctx.lineWidth = 4;
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = 'black';
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = 'black';
+      ctx.lineCap = 'round';
+      ctxRef.current = ctx;
+    }
 
     const startDrawing = (e) => {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
+    
       isDrawing.current = true;
       ctx.beginPath();
       const rect = canvas.getBoundingClientRect();
@@ -32,13 +37,16 @@ export default function WritingCh() {
     };
 
     const draw = (e) => {
-      if (!isDrawing.current) return;
+      const ctx = ctxRef.current;
+      if (!isDrawing.current || !ctx) return;
       const rect = canvas.getBoundingClientRect();
       ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
       ctx.stroke();
     };
 
     const stopDrawing = () => {
+      const ctx = ctxRef.current;
+      if (!ctx) return;
       isDrawing.current = false;
       ctx.closePath();
     };
@@ -54,7 +62,7 @@ export default function WritingCh() {
       canvas.removeEventListener('mouseup', stopDrawing);
       canvas.removeEventListener('mouseleave', stopDrawing);
     };
-  }, [currentIndex]);
+  }, []);
 
   const handleCheck = () => {
     const canvas = canvasRef.current;

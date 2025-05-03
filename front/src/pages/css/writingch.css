@@ -1,5 +1,5 @@
 .writing-container {
-  max-width: 500px;
+  max-width: 400px;
   margin: 0 auto;
   padding: 1rem;
   text-align: center;
@@ -13,8 +13,10 @@
 }
 
 .canvas-wrapper {
-  width: 100%;
+  width: 400px;
   height: 400px;
+  margin: 0 auto;
+  position: relative;
   border: 1px solid #ccc;
   margin-bottom: 1rem;
   overflow: hidden; /* 防止畫布超出 */
@@ -22,8 +24,8 @@
 
 .stroke-gif {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  width: 400px;
+  height: 400px;
   object-fit: contain;
   top: 0;
   left: 0;
@@ -33,6 +35,8 @@
 
 .sketch-canvas {
   position: absolute;
+  width: 400px;
+  height: 400px;
   top: 0;
   left: 0;
   z-index: 1;
@@ -41,6 +45,11 @@
 
 .sketch-canvas canvas {
   background-color: transparent !important;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .feedback-message {
@@ -87,6 +96,6 @@
 
 .canvas-layer {
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 400px;
+  height: 400px;
 }
