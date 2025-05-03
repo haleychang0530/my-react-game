@@ -141,8 +141,12 @@ const ChooseAnswerGame = () => {
                   }`}
                 >
                   {option}
-                  {selectedOption === option && selectedStatus === 'correct' && ' ✔️'}
-                  {selectedOption === option && selectedStatus === 'wrong' && ' ❌'}
+                  {selectedOption === option && (
+  <span className="status-icon">
+    {selectedStatus === 'correct' ? '✔️' : '❌'}
+  </span>
+)}
+
                 </button>
               ))}
             </div>

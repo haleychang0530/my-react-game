@@ -12,7 +12,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(60vh - 50px); /* 扣掉navbar高度，參數自己調 */
+    height: calc(60vh - 10px); /* 扣掉navbar高度，參數自己調 */
   }
   
   
@@ -33,16 +33,25 @@
   /* 選項容器 */
   .options-container {
     display: flex;
-    flex-direction: center;
-    gap: 20px;
+    justify-content: center;   /* 水平置中 */
+    align-items: center;       /* 垂直置中（可選） */
+    gap: 5px;                 /* 按鈕之間的距離 */
     margin-top: 30px;
   }
+  
 
   .option-button {
     font-size: 5rem;  /* 放大選項字體 */
     padding: 10px 20px;
     margin: 10px;
+    width: 150px;      /* 設定固定寬度 */
+    height: 150px;     /* 設定固定高度 */
     justify-content: center;
+  }
+  .status-icon {
+    font-size: 2rem;  /* 調整這裡的大小，例如 1.5rem、2rem，看你想要多小 */
+    margin-left: 8px; /* 讓符號和文字有點距離 */
+    vertical-align: middle; /* 與文字對齊 */
   }
   
   
