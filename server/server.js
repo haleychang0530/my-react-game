@@ -202,7 +202,6 @@ app.get('/testingData', async (req, res) => {
     }
 });
 
-
 //登出
 app.post('/logout', async (req, res) => {
   const { username } = req.body;
@@ -221,6 +220,21 @@ app.post('/logout', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
+// 設定帳號刪除
+app.post('/deleteAccount', async (req, res) => {
+  const { username } = req.query;
+  try {
+      const result = await client.query(
+          'UPDATE players DELETE COLUMN WHERE username = $1',
+          [username]
+      );
+      res.status(200).json({ message: 'Goodnight' });
+  } catch (err) {
+      console.log(err);
+      res.status(404).json({ error: 'Player not found' });
+    }
+  });
 
 // 啟動伺服器
 app.listen(port, () => {
