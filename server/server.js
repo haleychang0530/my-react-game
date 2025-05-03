@@ -226,7 +226,7 @@ app.post('/deleteAccount', async (req, res) => {
   const { username } = req.query;
   try {
       const result = await client.query(
-          'UPDATE players DELETE COLUMN WHERE username = $1',
+          'DELETE FROM players WHERE username = $1',
           [username]
       );
       res.status(200).json({ message: 'Goodnight' });

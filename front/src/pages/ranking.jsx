@@ -40,7 +40,7 @@ export default function Ranking() {
             <div className="rank-right">
               <div>❤️ HP: {player.hp}</div>
               <div>⭐ Score: {player.score}</div>
-              <div>⏳ Time Spent: {player.timespan}</div>
+              <div>⏳ Time Spent: {player.timespan/3600}:{player.timespan/60}:{player.timespan}</div>
             </div>
           </div>
         ))}
