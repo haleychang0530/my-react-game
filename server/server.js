@@ -223,13 +223,17 @@ app.post('/logout', async (req, res) => {
 
 // 設定帳號刪除
 app.post('/deleteAccount', async (req, res) => {
-  const { username } = req.query;
+  const { username } = req.body;
   try {
       const result = await client.query(
           'DELETE FROM players WHERE username = $1',
           [username]
       );
-      res.status(200).json({ message: 'Goodnight' });
+      if (result.rowCount > 0) {
+        res.status(200).json({ message: 'Good night' });
+      } else {
+        res.status(404).json({ error: 'Player not found' });
+      }
   } catch (err) {
       console.log(err);
       res.status(404).json({ error: 'Player not found' });
