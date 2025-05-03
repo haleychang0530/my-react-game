@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './css/gameen.css';
 import axios from 'axios';
-import ReactMarkdown from 'react-markdown';
+//import ReactMarkdown from 'react-markdown';
+import Markdown from 'markdown-to-jsx';
 const WORDS = ['dog', 'c']; // 預設單字列表
 const API_URL = "https://my-react-game-server-0uk9.onrender.com";
 
@@ -39,6 +40,9 @@ function Gameen() {
     }
   }, []);
 
+  function MarkdownRenderer({ content }) {
+    return <Markdown>{content}</Markdown>;
+  }
   
 
   // 檢查用戶輸入的字母
@@ -288,7 +292,7 @@ function Gameen() {
               <p><strong>🔤 麻雀老師覺得你寫的字是：</strong></p>
               <div className="big-letter">"{AIresult.letter}"</div>
               <p><strong>📝 評語：</strong></p>
-              <ReactMarkdown>{AIresult.feedback}</ReactMarkdown>
+              <MarkdownRenderer content={AIresult.feedback} />
               <p><strong>📊 雀寶寶的分數：</strong> {AIresult.score} 分</p>
             </div>
           )}
