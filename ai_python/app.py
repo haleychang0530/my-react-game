@@ -50,7 +50,10 @@ def recognize():
     print(f"✅ 圖片儲存成功：{file_path}")
 
     # 傳給 Gemini（你自己寫的）
-    response_str = get_gemini_response_from_image(ans, image)
+    try:
+        response_str = get_gemini_response_from_image(ans, image)
+    except Exception as e:
+        return jsonify({"error": f"Gemini 錯誤：{str(e)}"}), 500
     print("📦 這是 Gemini 回傳的 raw 字串：\n", response_str)
     match = re.search(r'\{.*\}', response_str, re.DOTALL)
     # 解析魔法：

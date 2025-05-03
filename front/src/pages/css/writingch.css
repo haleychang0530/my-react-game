@@ -11,7 +11,12 @@
   margin-bottom: 10px;
   color: #444;
 }
-
+.description {
+  background-color: #1e1e1e;
+  margin-top: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
 .canvas-wrapper {
   width: 400px;
   height: 400px;

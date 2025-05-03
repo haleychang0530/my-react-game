@@ -38,6 +38,12 @@ output_prompt = """
 }
 或者
 {
+    "letter": "花",
+    "feedback": "你的字還沒有寫完全喔，可以看到你在亂畫，請根據正確答案「花」的筆順動畫來寫！",
+    "score": 0
+}
+或者
+{
     "letter": "b",
     "feedback": "b字很棒！但左邊的直線要再直一點，中間的圓形要放在方格下方「正中間」，這樣看起來會更整齊哦！",
     "score": 93
@@ -52,10 +58,11 @@ def get_gemini_response_from_image(ans, image):
   response = chat.send_message(
     message=[
       prompt,
-      ans,
+      #ans,
       image, 
       output_prompt
     ]
   )
+  print("嗨嗨嗚嗚嗚")
   return response.text
 #chat.send_message 會有記憶嗎
