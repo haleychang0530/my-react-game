@@ -18,7 +18,6 @@ const ChooseAnswerGame = () => {
   const [score, setScore] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [gameOver, setGameOver] = useState(false);
-  const [gameOver, setGameOver] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [timeLeft, setTimeLeft] = useState(10);

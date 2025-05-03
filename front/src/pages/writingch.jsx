@@ -170,6 +170,11 @@ export default function WritingCh() {
             onTouchMove={handleTouchMove}
             onTouchEnd={stopDrawing}
             style={{ border: '1px solid #ccc', touchAction: 'none', width: '100%', height: '100%' }}
+
+
+
+
+
           />
         </div>
       </div>
