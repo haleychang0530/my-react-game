@@ -10,7 +10,7 @@
 }
 
 .ranking-title {
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   color: #333;
   margin-bottom: 1.5rem;
   text-shadow: 2px 2px #ccc;
@@ -45,12 +45,12 @@
 
 .player-name {
   font-weight: bold;
-  font-size: 0.75rem;
+  font-size: 1rem;
 }
 
 .rank-right {
   text-align: right;
-  font-size: 0.7rem;
+  font-size: 1rem;
 }
 
 /* 特殊名次色彩 */
