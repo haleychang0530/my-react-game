@@ -12,16 +12,16 @@ export default function HomePage() {
 
   // 根據 record 顯示不同的寵物圖片
   const getPetImage = (score, hp) => {
-    if (score < 800 && hp < 80) {
+    if (score < 80 && hp < 80) {
       return petImage_Initial_HpLow; 
     } 
-    else if (score < 800 && hp >= 80) {
+    else if (score < 80 && hp >= 80) {
       return petImage_Initial;
     } 
-    else if (score < 1000 && hp < 80) {
+    else if (score < 100 && hp < 80) {
       return petImage_Low_HpLow;
     }
-    else if (score < 1000 && hp >= 80) {
+    else if (score < 100 && hp >= 80) {
       return petImage_Low;
     } 
     else {
@@ -37,7 +37,7 @@ export default function HomePage() {
       // const data = await res.json();
 
       // 現在用假數據
-      const fakeData = { hp: 90, score: 900};
+      const fakeData = { hp: 90, score: 90};
       setHp(fakeData.hp);
       setScore(fakeData.score);
 
