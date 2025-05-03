@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./css/home.css";
+import axios from 'axios';
 import petImage_Initial from '../assets/chick_status/initial/initial_egg.png';
 import petImage_Low from '../assets/chick_status/grown/chick.png';
 import petImage_Initial_HpLow from '../assets/chick_status/edible/fried_egg.png';
@@ -9,37 +10,35 @@ import petImage_High from '../assets/chick_status/grown/chick.png';
 export default function HomePage() {
   const [hp, setHp] = useState(100);
   const [score, setScore] = useState(0);
+  const [record, setRecord] = useState(0);
 
   // 根據 record 顯示不同的寵物圖片
-  const getPetImage = (score, hp) => {
-    if (score < 80 && hp < 80) {
-      return petImage_Initial_HpLow; 
+   const getPetImage = (score, hp) => {
+    if (score == 0 && hp < 80) {
+      return petImage_Initial; 
     } 
-    else if (score < 80 && hp >= 80) {
+    else if (score < 30 && hp >= 80) {
       return petImage_Initial;
     } 
-    else if (score < 100 && hp < 80) {
-      return petImage_Low_HpLow;
+    else if (score < 50 && hp >= 80) {
+      return petImage_HIGH;
     }
-    else if (score < 100 && hp >= 80) {
-      return petImage_Low;
+    else if (score < 70 && hp >= 80) {
+      return petImage_Low_HpLow;
     } 
     else {
       return petImage_High;
     }
   };
 
-  // 模擬 API 請求來抓取資料
   const fetchPetStatus = async () => {
     try {
-      // 在這裡替換成真實的 API 請求，像是：
-      // const res = await fetch("/api/pet-status");
-      // const data = await res.json();
-
-      // 現在用假數據
-      const fakeData = { hp: 90, score: 90};
-      setHp(fakeData.hp);
-      setScore(fakeData.score);
+      const username = localStorage.getItem("username");
+      const res = await axios.get(`https://my-react-game-server-0uk9.onrender.com/pet-status`, {params: {username}});
+      console.log("Fetched data:", res.data, "Username:", username);
+      setHp(res.data.hp);
+      setScore(res.data.score);
+      setRecord(res.data.score);
 
     } catch (error) {
       console.error("Error fetching pet status:", error);
@@ -67,7 +66,7 @@ export default function HomePage() {
 
         {/* 顯示寵物圖片 */}
         <img src={petImage} alt="Pet" className="mt-4 w-[200px] h-auto mx-auto" />
-        
+
         {/* 更換服裝按鈕 */}
         <button onClick={() => alert("Change Outfit!")} className="pixel-button mt-4">
           Change Outfit

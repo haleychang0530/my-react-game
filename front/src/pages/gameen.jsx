@@ -1,14 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ReactSketchCanvas } from 'react-sketch-canvas';
+import './css/gameen.css';
+import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
-import "./css/gameen.css";
-
 const WORDS = ['dog', 'c']; // 預設單字列表
+const API_URL = "https://my-react-game-server-0uk9.onrender.com";
 
-function gameen() {
+function Gameen() {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
-  const [showWord, setShowWord] = useState(true);
   const [infoStatus, setinfoStatus] = useState(null);
   const [AIresult, setAIresult] = useState(null); 
   const [correctCount, setCorrectCount] = useState(0);
@@ -18,19 +17,28 @@ function gameen() {
 
 
   const canvasRef = useRef(null);
+  const isDrawing = useRef(false);
+  const ctxRef = useRef(null);
 
   const currentWord = WORDS[currentWordIndex];
   const currentLetter = currentWord[currentLetterIndex];
 
-  // 顯示單字後隱藏
+  // 初始化 canvas
   useEffect(() => {
-    if (showWord) {
-      const timer = setTimeout(() => {
-        setShowWord(false); // 顯示 2 秒後隱藏題目
-      }, 2000); // 顯示2秒後隱藏
-      return () => clearTimeout(timer);
+    const canvas = canvasRef.current;
+    if (canvas) {
+      canvas.width = 300;
+      canvas.height = 300;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = 'white';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = 'black';
+      ctx.lineCap = 'round';
+      ctxRef.current = ctx;
     }
-  }, [showWord]);
+  }, []);
+
   
 
   // 檢查用戶輸入的字母
@@ -47,18 +55,66 @@ function gameen() {
     if (res === currentLetter.toLowerCase()) {
       console.log("Y");
       setYorN('Y'); // 設定為 Y
-      setCorrectCount(prev => prev + 1);
-      
-      
-    } else {
+      setCorrectCount(prev => prev + 1);  }
+    else {
       setYorN('N'); // 設定為 N
       setTimeout(() => {
         setinfoStatus(null);
-        canvasRef.current.clearCanvas();
+        clearCanvas();
       }, 1000);
+      }
+    };
+      
+      
+  useEffect(() => {
+    const passScore = async () => {
+      try {
+        const username = localStorage.getItem("username");
+        const res = await axios.post(`${API_URL}/updateScore`, {
+          username,
+          score: correctCount,
+        });
+        console.log(res.data);
+      } catch (error) {
+        console.error("Error uploading score:", error);
+      }
+    };
+
+    if (gameCompleted) {
+      passScore();
     }
+  }, [gameCompleted]);
+
+  const startDrawing = (x, y) => {
+    isDrawing.current = true;
+    ctxRef.current.beginPath();
+    ctxRef.current.moveTo(x, y);
   };
-  
+
+  const draw = (x, y) => {
+    if (!isDrawing.current) return;
+    ctxRef.current.lineTo(x, y);
+    ctxRef.current.stroke();
+  };
+
+  const stopDrawing = () => {
+    isDrawing.current = false;
+    ctxRef.current.closePath();
+  };
+
+  const getCanvasDataURL = () => {
+    return canvasRef.current.toDataURL('image/png');
+  };
+
+  const clearCanvas = () => {
+    const canvas = canvasRef.current;
+    const ctx = ctxRef.current;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'white';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  };
+
+
   const resetGame = () => {
     setCurrentWordIndex(0);
     setCurrentLetterIndex(0);
@@ -66,40 +122,60 @@ function gameen() {
     setinfoStatus(null);
     setCorrectCount(0);
     setGameCompleted(false);
-    if (canvasRef.current) {
-      canvasRef.current.clearCanvas();
-    }
+    clearCanvas();
   };
+
+  const handleMouseDown = (e) => {
+    const rect = canvasRef.current.getBoundingClientRect();
+    startDrawing(e.clientX - rect.left, e.clientY - rect.top);
+  };
+
+  const handleMouseMove = (e) => {
+    const rect = canvasRef.current.getBoundingClientRect();
+    draw(e.clientX - rect.left, e.clientY - rect.top);
+  };
+
+  const handleTouchStart = (e) => {
+    const rect = canvasRef.current.getBoundingClientRect();
+    const touch = e.touches[0];
+    startDrawing(touch.clientX - rect.left, touch.clientY - rect.top);
+  };
+
+  const handleTouchMove = (e) => {
+    const rect = canvasRef.current.getBoundingClientRect();
+    const touch = e.touches[0];
+    draw(touch.clientX - rect.left, touch.clientY - rect.top);
+  };
+
   //安 handleSubmitToServer
   // 這個函數會將畫布上的圖像傳送到伺服器進行辨識
   const handleSubmitToServer = async () => {
     if (!canvasRef.current) return;
   
+    /*
     // 1️⃣ 檢查是否有畫任何筆劃（避免 "No stroke found!"）
     const paths = await canvasRef.current.exportPaths();
     if (paths.length === 0) {
       alert("⚠️ 請先寫一個字再送出！");
       return;
     }
-  
+  */
     try {
       setinfoStatus("loading"); // 2️⃣ 顯示 Loading 狀態（你可以搭配動畫或文字）
   
-      const imageData = await canvasRef.current.exportImage("png");
+      //const imageData = await canvasRef.current.exportImage("png");
+      const imageData = getCanvasDataURL();
+      
       console.log("🖼️ 收到畫布圖像");
 
-      const res = await fetch("http://localhost:5000/api/recognize", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ image: imageData ,
-            ans: currentLetter, // 3️⃣ 傳送當前字母
-          }),
+      const res = await axios.post("http://localhost:5000/api/recognize", {
+        image: imageData,
+        ans: currentLetter, // 3️⃣ 傳送當前字母
       });
+
       console.log("等待 AI 回傳結果...");
   
-      const result = await res.json();
+      const result = await res.data; //在axios中，res.data就是我們要的結果
       console.log("✅ AI 辨識字母:", result.letter);
       console.log("✅ AI 回饋:", result.feedback);
       console.log("✅ 手寫分數:", result.score);
@@ -121,13 +197,12 @@ function gameen() {
   //安 clear函數
   const clear = () => {
     if (canvasRef.current) {  // 確保 canvasRef.current 存在
-      canvasRef.current.clearCanvas(); // 清除畫布    
+        clearCanvas() // 清除畫布    
+        setYorN(null); // 清除 Y/N 狀態
+        setAIresult(null); // 清除 AI 回饋  
+        setinfoStatus(null); // 清除 AI 回饋
     }  
-    if (clearButtonText === "再練習一次") {  
-      setinfoStatus(null); // 清除 AI 回饋
-      setAIresult(null);
-    }
-    
+ 
   }
 
   //安 clear函數 end
@@ -144,17 +219,16 @@ function gameen() {
           setCurrentWordIndex(prev => prev + 1);
           setCurrentLetterIndex(0);
           setShowWord(true); // 顯示新單字
-          //setinfoStatus(null);
-          canvasRef.current.clearCanvas();
       }
     } else {
       // 切換到下一個字母
         setCurrentLetterIndex(prev => prev + 1);
-        setinfoStatus(null);
-        setYorN(null); // 清除 Y/N 狀態
-        setAIresult(null); // 清除 AI 回饋
-        canvasRef.current.clearCanvas();
+        
     }
+    setinfoStatus(null);
+    setYorN(null); // 清除 Y/N 狀態
+    setAIresult(null); // 清除 AI 回饋
+    clearCanvas();
     
   }
 
@@ -172,23 +246,25 @@ function gameen() {
   return (
     <div className="game-container">
       <h1>字母書寫遊戲</h1>
-      
       <div className="word-display">
           <h2>{currentWord}</h2>   
           <font size="5">請寫出字母: <span className="letter-prompt">{currentLetter}</span> </font> 
       </div>
-      
+
       <div className="canvas-container">
-        <ReactSketchCanvas
+        <canvas
           ref={canvasRef}
-          width="300px"
-          height="300px"
-          strokeWidth={4}
-          strokeColor="black"
-          canvasColor="white"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={stopDrawing}
+          onMouseLeave={stopDrawing}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={stopDrawing}
+          style={{ border: '1px solid #ccc', touchAction: 'none' }}
         />
       </div>
-      
+
       <div className="controls">
         <button onClick={checkLetter}>送出辨識</button> 
         <button onClick={clear}>菜就重練</button>
@@ -221,4 +297,4 @@ function gameen() {
   );
 }
 
-export default gameen;
+export default Gameen;
