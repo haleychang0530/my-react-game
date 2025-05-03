@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
-import axios from 'axios';
 import "./css/home.css";
-import petImageLow from '../assets/fake_egg.jpg';
+import axios from 'axios';
+import petImage_Initial from '../assets/chick_status/initial/initial_egg.png';
+import petImage_Low from '../assets/chick_status/grown/chick.png';
+import petImage_Initial_HpLow from '../assets/chick_status/edible/fried_egg.png';
+import petImage_Low_HpLow from '../assets/chick_status/edible/roasted_chicken.png';
+import petImage_High from '../assets/chick_status/grown/chick.png';
 
 export default function HomePage() {
   const [hp, setHp] = useState(100);
@@ -9,13 +13,21 @@ export default function HomePage() {
   const [record, setRecord] = useState(0);
 
   // 根據 record 顯示不同的寵物圖片
-  const getPetImage = (record) => {
-    if (record < 1000) {
-      return petImageLow; 
-    } else if (record < 5000) {
-      return petImageLow;
-    } else {
-      return petImageLow;
+   const getPetImage = (score, hp) => {
+    if (score < 80 && hp < 80) {
+      return petImage_Initial_HpLow; 
+    } 
+    else if (score < 80 && hp >= 80) {
+      return petImage_Initial;
+    } 
+    else if (score < 100 && hp < 80) {
+      return petImage_Low_HpLow;
+    }
+    else if (score < 100 && hp >= 80) {
+      return petImage_Low;
+    } 
+    else {
+      return petImage_High;
     }
   };
 
@@ -39,7 +51,7 @@ export default function HomePage() {
   }, []);
 
   // 根據 record 決定顯示的寵物圖片
-  const petImage = getPetImage(record);
+  const petImage = getPetImage(score, hp);
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-800">
@@ -50,7 +62,6 @@ export default function HomePage() {
         <div className="space-y-2">
           <p className="pixel-font text-yellow-300">HP: <span>{hp}</span></p>
           <p className="pixel-font text-blue-300">Score: <span>{score}</span></p>
-          <p className="pixel-font text-green-300">Record: <span>{record}</span></p>
         </div>
 
         {/* 顯示寵物圖片 */}

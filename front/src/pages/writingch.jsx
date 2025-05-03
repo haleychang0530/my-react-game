@@ -1,5 +1,4 @@
-import { useState, useRef } from 'react';
-
+import { useState, useRef, useEffect } from 'react';
 import './css/writingch.css';
 
 import gif1 from '../assets/hua_stroke.gif';
@@ -16,79 +15,70 @@ export default function WritingCh() {
   const [isFinished, setIsFinished] = useState(false);
   const canvasRef = useRef(null);
   const isDrawing = useRef(false);
-  const ctxRef = useRef(null);
 
-  // 初始化 canvas
-  const initCanvas = () => {
+  useEffect(() => {
     const canvas = canvasRef.current;
-    if (canvas) {
-      const ctx = canvas.getContext('2d');
-      ctx.lineWidth = 4;
-      ctx.strokeStyle = 'black';
-      ctx.lineCap = 'round';
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctxRef.current = ctx;
-    }
-  };
+    const ctx = canvas.getContext('2d');
+    ctx.lineWidth = 4;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = 'black';
 
-  // 開始繪圖
-  const startDrawing = (e) => {
-    const rect = canvasRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    isDrawing.current = true;
-    ctxRef.current.beginPath();
-    ctxRef.current.moveTo(x, y);
-  };
+    const startDrawing = (e) => {
+      isDrawing.current = true;
+      ctx.beginPath();
+      const rect = canvas.getBoundingClientRect();
+      ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+    };
 
-  // 繪圖
-  const draw = (e) => {
-    if (!isDrawing.current) return;
-    const rect = canvasRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    ctxRef.current.lineTo(x, y);
-    ctxRef.current.stroke();
-  };
+    const draw = (e) => {
+      if (!isDrawing.current) return;
+      const rect = canvas.getBoundingClientRect();
+      ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+      ctx.stroke();
+    };
 
-  // 停止繪圖
-  const stopDrawing = () => {
-    isDrawing.current = false;
-    ctxRef.current.closePath();
-  };
+    const stopDrawing = () => {
+      isDrawing.current = false;
+      ctx.closePath();
+    };
 
-  // 處理觸控事件
-  const handleTouchStart = (e) => {
-    const touch = e.touches[0];
-    startDrawing(touch);
-  };
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseleave', stopDrawing);
 
-  const handleTouchMove = (e) => {
-    const touch = e.touches[0];
-    draw(touch);
-  };
+    return () => {
+      canvas.removeEventListener('mousedown', startDrawing);
+      canvas.removeEventListener('mousemove', draw);
+      canvas.removeEventListener('mouseup', stopDrawing);
+      canvas.removeEventListener('mouseleave', stopDrawing);
+    };
+  }, [currentIndex]);
 
-  // 判斷是否有繪圖
-  const handleCheck = async () => {
+  const handleCheck = () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
     const data = canvas.toDataURL('image/png');
     const hasDrawing = data && !data.includes('iVBORw0KGgoAAAANSUhEUgAAAAEAAAAB');
     setMessage(hasDrawing ? '通過 ✅' : '再試一次 ❌');
-
-
   };
 
-  // 清除畫布
   const handleClear = () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = ctxRef.current;
+    const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     setMessage('');
   };
 
-  // 下一題
+  const handleDownload = () => {
+    const dataUrl = canvasRef.current.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = dataUrl;
+    link.download = `writing-${currentIndex + 1}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const handleNext = () => {
     if (currentIndex + 1 >= gifList.length) {
       setIsFinished(true);
@@ -98,7 +88,6 @@ export default function WritingCh() {
     }
   };
 
-  // 上一題
   const handlePrev = () => {
     if (currentIndex > 0) {
       setCurrentIndex((prev) => prev - 1);
@@ -106,43 +95,11 @@ export default function WritingCh() {
     }
   };
 
-  // 重新開始
   const handleRestart = () => {
     setCurrentIndex(0);
     setIsFinished(false);
     handleClear();
   };
-
-  // 下載圖片
-  const handleDownload = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const dataUrl = canvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.href = dataUrl;
-    link.download = `writing-${currentIndex + 1}.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  // 初始化畫布
-  const resizeCanvas = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-    initCanvas();
-  };
-
-  // 設定 canvas 大小和初始化畫布
-  useState(() => {
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-    };
-  }, []);
 
   if (isFinished) {
     return (
@@ -162,19 +119,16 @@ export default function WritingCh() {
           <img src={gifList[currentIndex]} alt="筆順題目" className="stroke-gif" />
           <canvas
             ref={canvasRef}
-            onMouseDown={startDrawing}
-            onMouseMove={draw}
-            onMouseUp={stopDrawing}
-            onMouseLeave={stopDrawing}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={stopDrawing}
-            style={{ border: '1px solid #ccc', touchAction: 'none', width: '100%', height: '100%' }}
-
-
-
-
-
+            width={400}
+            height={400}
+            className="sketch-canvas"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              backgroundColor: 'transparent',
+              touchAction: 'none',
+            }}
           />
         </div>
       </div>
