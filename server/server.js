@@ -182,6 +182,10 @@ app.post('/loginWithRfid', async (req, res) => {
       [rfid]
     );
     if (result.rows.length > 0) {
+      await client.query(
+        'UPDATE players SET is_online = TRUE WHERE username = $1',
+        [username]
+      );
       res.status(200).json({ message: 'Login with RFID successful', user: result.rows[0] });
     } else {
       res.status(404).json({ error: 'RFID not found' });
