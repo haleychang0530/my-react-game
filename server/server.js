@@ -202,6 +202,26 @@ app.get('/testingData', async (req, res) => {
     }
 });
 
+
+//登出
+app.post('/logout', async (req, res) => {
+  const { username } = req.body;
+  try {
+    const result = await client.query(
+      'UPDATE players SET is_online = FALSE WHERE username = $1',
+      [username]
+    );
+    if (result.rows.length > 0) {
+      res.status(200).json({ message: 'Logout successful', user: result.rows[0] });
+    } else {
+      res.status(404).json({ error: 'Logout Failed' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // 啟動伺服器
 app.listen(port, () => {
   console.log(`Server is running at PORT:${port}`);
