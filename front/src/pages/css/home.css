@@ -58,25 +58,7 @@
     margin: 20px auto;
   }
   
-  .pixel-button {
-    font-size: 14px;
-    color: white;
-    background-color: #ff6600; 
-    border: 2px solid #f0f0f0;
-    padding: 5px 5px;
-    border-radius: 8px;
-    cursor: pointer;
-    display: block;
-    margin: 0 auto;
-    text-transform: uppercase;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .pixel-button:hover {
-    background-color: #ff9933; 
-    transform: scale(1.1);
-  }
-  
+
   /* 顯示欄位的間距 */
   .space-y-2 {
     margin-bottom: 10px;

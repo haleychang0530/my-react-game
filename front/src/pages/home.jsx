@@ -12,7 +12,7 @@ export default function HomePage() {
   const [score, setScore] = useState(0);
   const [record, setRecord] = useState(0);
 
-  // 根據 record 顯示不同的寵物圖片
+  // 根據 record, hp 顯示不同的寵物圖片
    const getPetImage = (score, hp) => {
     if (score == 0 && hp < 80) {
       return petImage_Initial; 
@@ -50,7 +50,7 @@ export default function HomePage() {
     fetchPetStatus();
   }, []);
 
-  // 根據 record 決定顯示的寵物圖片
+  // 根據 record hp 決定顯示的寵物圖片
   const petImage = getPetImage(score, hp);
 
   return (
@@ -67,10 +67,6 @@ export default function HomePage() {
         {/* 顯示寵物圖片 */}
         <img src={petImage} alt="Pet" className="mt-4 w-[200px] h-auto mx-auto" />
 
-        {/* 更換服裝按鈕 */}
-        <button onClick={() => alert("Change Outfit!")} className="pixel-button mt-4">
-          Change Outfit
-        </button>
       </div>
     </div>
   );
