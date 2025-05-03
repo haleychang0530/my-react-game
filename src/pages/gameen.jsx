@@ -9,6 +9,7 @@ function gameen() {
   const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
   const [showWord, setShowWord] = useState(true);
   const [feedback, setFeedback] = useState(null);
+  const [result, setResult] = useState(null); 
   const [correctCount, setCorrectCount] = useState(0);
   const [gameCompleted, setGameCompleted] = useState(false);
 
@@ -69,6 +70,31 @@ function gameen() {
       }, 1000);
     }
   };
+  //安：添加送出辨識的函數
+  // 這個函數會將畫布上的圖像傳送到伺服器進行辨識
+  const handleSubmitToServer = async () => {
+    if (!canvasRef.current) return;
+    //如果畫布（ReactSketchCanvas）還沒載入好，就不做事
+  
+    const imageData = await canvasRef.current.exportImage("png");
+    console.log("🖼️ 畫布圖像數據:", imageData);
+    const res = await fetch("http://localhost:5000/api/recognize", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ image: imageData }),
+    });
+  
+    const result = await res.json();
+    console.log("✅ AI 回傳結果:", result.letter);
+    logging.info("✅ AI 回傳結果:", result.letter);
+    setFeedback("ai");
+    setResult(result.letter);
+  
+ 
+  };
+  
 
   const resetGame = () => {
     setCurrentWordIndex(0);
@@ -119,11 +145,15 @@ function gameen() {
       <div className="controls">
         <button onClick={checkLetter} disabled={feedback !== null}>確認</button>
         <button onClick={() => canvasRef.current.clearCanvas()}>清除</button>
+        <button onClick={handleSubmitToServer}>送出辨識</button> 
       </div>
       
       {feedback && (
         <div className={`feedback ${feedback}`}>
-          {feedback === 'correct' ? '✅ 正確!' : '❌ 不正確，請再試一次'}
+          {feedback === 'correct' && '✅ 正確!'}
+          {feedback === 'incorrect' && '❌ 不正確，請再試一次'}
+          {feedback === 'ai' && 'AI回復結果'}：
+          <p>AI 認為你寫的是：「{result.letter}」</p>
         </div>
       )}
     </div>
