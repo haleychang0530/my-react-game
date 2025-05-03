@@ -37,11 +37,19 @@
     gap: 20px;
     margin-top: 30px;
   }
+
+  .option-button {
+    font-size: 5rem;  /* 放大選項字體 */
+    padding: 10px 20px;
+    margin: 10px;
+    justify-content: center;
+  }
+  
   
   /* 按鈕樣式 */
   button {
     font-family: 'Courier New', Courier, monospace;
-    font-size: 70px;
+    font-size: 20px;
     background-color: #34495e;
     color: white;
     border: none;
