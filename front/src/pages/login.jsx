@@ -1,37 +1,20 @@
 import React, { useState } from "react";
-import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import "./css/login.css"; 
 
-const API_URL = "https://my-react-game-server-0uk9.onrender.com";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [rfid, setRFID] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  
-const handleLogin = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await axios.post(`${API_URL}/createAccount`, {
-      username,
-      password,
-      rfid
-    });
 
-    const message = response.data.message;
-    console.log("Server Message:", message);
-
-    localStorage.setItem("username", username);
-    navigate("/home");
-
-  } catch (err) {
-    const msg = err.response?.data?.message || "未知錯誤";
-    setError("發生錯誤： " + msg);
-  }
-};
-
+  const handleLogin = async () => {
+    if (username === "test" && password === "1234") {
+      navigate("/home");
+    } else {
+      setError("❌ Wrong username or password!");
+    }
+  };
 
   return (
     <div className="pixel-container">
@@ -50,18 +33,11 @@ const handleLogin = async (e) => {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <input
-        type="text"
-        className="pixel-input"
-        placeholder="RFID (OPTIONAL)"
-        value={rfid}
-        onChange={(e) => setRFID(e.target.value)}
-      />
       {error && <p className="pixel-error">{error}</p>}
       <button className="pixel-button" onClick={handleLogin}>
         LOGIN
       </button>
-      <button className="pixel-button" onClick={handleLogin}>
+      <button className="pixel-button" onClick={() => navigate("/register")}>
         REGISTER
       </button>
     </div>
