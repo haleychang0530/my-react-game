@@ -120,7 +120,7 @@ const ChooseAnswerGame = () => {
         <h1>得分: {score}</h1>
         {gameOver ? (
           <div className="game-over">
-            <h2>遊戲結束！最終得分: {score}</h2>
+            <h2>遊戲結束！</h2>
             <button onClick={resetGame}>重新開始</button>
           </div>
         ) : (
