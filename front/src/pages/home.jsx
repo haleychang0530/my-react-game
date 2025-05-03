@@ -14,17 +14,17 @@ export default function HomePage() {
 
   // 根據 record 顯示不同的寵物圖片
    const getPetImage = (score, hp) => {
-    if (score < 80 && hp < 80) {
-      return petImage_Initial_HpLow; 
+    if (score == 0 && hp < 80) {
+      return petImage_Initial; 
     } 
     else if (score < 30 && hp >= 80) {
       return petImage_Initial;
     } 
     else if (score < 50 && hp >= 80) {
-      return petImage_Low_HpLow;
+      return petImage_HIGH;
     }
     else if (score < 70 && hp >= 80) {
-      return petImage_Low;
+      return petImage_Low_HpLow;
     } 
     else {
       return petImage_High;
