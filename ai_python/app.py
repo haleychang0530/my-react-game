@@ -12,11 +12,7 @@ import re
 
 app = Flask(__name__)
 # 設定
-CORS(app, resources={r"/api/*": {"origins": [
-                                  "http://localhost:5173",
-                                  "http://localhost:5174",
-                                  "http://localhost:5175"
-                                 ]}})
+CORS(app)
 logging.basicConfig(level=logging.INFO,
                      format="%(asctime)s - %(levelname)s - %(message)s"
                      )
@@ -24,6 +20,10 @@ UPLOAD_DIR = "uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 # 你可以替換成你自己的 Gemini 模組
 from gemini_utils import get_gemini_response_from_image
+
+@app.route('/')
+def ignore():
+    return '', 204  # No Content
 
 @app.route("/api/recognize", methods=["POST"])
 def recognize():
@@ -64,10 +64,7 @@ def recognize():
         print("❌ 無法解析為 JSON，收到的內容是：", response_str)
         return jsonify({"error": "AI 回傳格式錯誤，無法解析 JSON"}), 500
 
-   
-
-
-    
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0",port=port)

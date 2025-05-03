@@ -145,7 +145,7 @@ function Gameen() {
     try {
       setinfoStatus("loading");
       const imageData = getCanvasDataURL();
-      const res = await axios.post("http://localhost:5000/api/recognize", {
+      const res = await axios.post("https://my-react-game-ai.onrender.com/api/recognize", {
         image: imageData,
         ans: currentLetter,
       });

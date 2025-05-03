@@ -19,6 +19,7 @@ export default function WritingCh() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
+      
     ctx.lineWidth = 4;
     ctx.lineCap = 'round';
     ctx.strokeStyle = 'black';
