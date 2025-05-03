@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Route, Routes, useLocation } from 'react-router-dom'; 
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom'; 
 import Navbar from './components/navbar';  // 引入 Navbar
 import Start from './pages/start';
 import Login from './pages/login';
@@ -31,7 +31,7 @@ const PageWithNavbar = ({ children }) => {
   
   return (
     <div>
-      {/* 只有在 /home、/game、/ranking 顯示 Navbar */}
+      {/* 只有在 /home、/game、/ranking /writingch 顯示 Navbar */}
       {(location.pathname === '/home' || location.pathname === '/gameen' || location.pathname === '/ranking' || location.pathname === '/gamech' || location.pathname === '/writingch') && <Navbar />}
       {children}
     </div>
