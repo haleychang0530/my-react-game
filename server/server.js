@@ -35,6 +35,8 @@ const createTableQuery = `
   );
   UPDATE players SET score = 0 WHERE score IS NULL;
   ALTER TABLE players ADD COLUMN IF NOT EXISTS rfid VARCHAR(255) UNIQUE;
+  ALTER TABLE players ADD COLUMN IF NOT EXISTS isOnline BOOLEAN DEFAULT FALSE;
+  ALTER TABLE players ADD COLUMN IF NOT EXISTS timespan INT DEFAULT 0;
   ALTER TABLE players DROP CONSTRAINT IF EXISTS players_petname_key;
   DELETE FROM players WHERE username = '';
 `;
@@ -58,14 +60,21 @@ app.post('/createAccount', async (req, res) => {
       'SELECT * FROM players WHERE username = $1', [username]
     );
     if (userCheck.rows.length > 0) {
+      await client.query(
+        'UPDATE players SET is_online = TRUE WHERE username = $1',
+        [username]
+      );
       return res.status(200).json({ message: 'Login successfully', user: userCheck.rows[0] });
     }
     
     const result = await client.query(
-      'INSERT INTO players (username, password, petname, hp, score, rfid) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-      [username, password, 'Cutie', 100, 0, rfid]
+      'INSERT INTO players (username, password, petname, hp, score, rfid, timespan) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+      [username, password, 'Cutie', 100, 0, rfid, 0]
     );
-
+    await client.query(
+      'UPDATE players SET is_online = TRUE WHERE username = $1',
+      [username]
+    );
     res.status(201).json({ message: 'Account created', user: result.rows[0] });
 
   } catch (err) {
@@ -108,10 +117,10 @@ app.get('/pet-status', async (req, res) => {
             [username]
         );
         if (result.rows.length > 0) {
-            return res.json({ 
+          return res.json({ 
                 hp: result.rows[0].hp, 
                 score: result.rows[0].score 
-            });
+          });
         }
         res.status(404).json({ error: 'Player not found' });
     } catch (err) {
@@ -155,7 +164,7 @@ app.post('/updateScore', async (req, res) => {
 // 獲取排行榜
 app.get('/leaderboard', async (req, res) => {
     try {
-        const result = await client.query('SELECT username, hp, score FROM players ORDER BY score DESC');
+        const result = await client.query('SELECT username, hp, score, timespan FROM players ORDER BY score DESC');
         res.json(result.rows);
       
     } catch (err) {
@@ -185,7 +194,7 @@ app.post('/loginWithRfid', async (req, res) => {
 
 app.get('/testingData', async (req, res) => {
     try {
-        const result = await client.query('SELECT username, hp, score , password, rfid FROM players ORDER BY score DESC');
+        const result = await client.query('SELECT username, hp, score , password, rfid, timespan FROM players ORDER BY score DESC');
         res.json(result.rows);
     } catch (err) {
         console.log(err);
@@ -195,9 +204,15 @@ app.get('/testingData', async (req, res) => {
 
 // 啟動伺服器
 app.listen(port, () => {
+  console.log(`Server is running at PORT:${port}`);
+  console.log(`Server is running at http://localhost:${port}`);
+});
 
-    console.log(`Server is running at PORT:${port}`);
-
-    console.log(`Server is running at http://localhost:${port}`);
-
-})
+setInterval(async () => {
+  try {
+    await client.query('UPDATE players SET timespan = timespan + 1 WHERE is_online = TRUE');
+    console.log('Counting timespan for online players');
+  } catch (err) {
+    console.error('Error updating timespan :', err);
+  }
+}, 1000);
