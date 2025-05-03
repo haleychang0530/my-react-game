@@ -120,24 +120,6 @@ app.get('/pet-status', async (req, res) => {
       }
     });
 
-// 創建新帳號
-app.post('/createAccount', async (req, res) => {
-    const { username, password, petname, hp, score } = req.body;
-    try {
-        const result = await client.query(
-            'INSERT INTO players (username, password, petname, hp, score) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-            [username, password, petname, hp, score]
-        );
-        res.status(201).json(result.rows[0]);
-    } catch (err) {
-        console.log(err);
-       if (err.code === '23505') {  //NOT UNIQUE error
-            res.status(400).json({ message: 'Username already exists' });
-        }
-        else res.status(500).json({ error: 'Error creating account' });
-
-    }
-});
 
 // 獲取玩家分數
 app.get('/getScore', async (req, res) => {
