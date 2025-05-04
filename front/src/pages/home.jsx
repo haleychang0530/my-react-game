@@ -21,7 +21,7 @@ export default function HomePage() {
       return petImage_Initial;
     } 
     else if (score < 50 && hp >= 80) {
-      return petImage_HIGH;
+      return petImage_High;
     }
     else if (score < 70 && hp >= 80) {
       return petImage_Low_HpLow;
