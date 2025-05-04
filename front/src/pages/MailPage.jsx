@@ -32,7 +32,7 @@ const MailPage = () => {
   
       setLoading(true);
       try {
-        const res = await axios.post("http://localhost:5000/api/mail", {
+        const res = await axios.post("https://my-react-game-ai.onrender.com/api/mail", {
           image: base64Image,
           ans: ans,
         });
