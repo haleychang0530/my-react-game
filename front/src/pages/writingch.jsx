@@ -140,7 +140,7 @@ export default function WritingCh() {
       setinfoStatus("loading");
       const imageData = canvasRef.current.toDataURL('image/png');;
       //const res = await axios.post("https://my-react-game-ai.onrender.com/api/recognize", {
-      const res = await axios.post("http://127.0.0.1:5000/api/recognize", {
+      const res = await axios.post("http://127.0.0.1:5000/api/recognize/ch", {
         
         image: imageData,
         ans: currentLetter,

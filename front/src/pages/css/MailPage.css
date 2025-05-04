@@ -1,0 +1,80 @@
+
+/* MailPage 專用樣式，延續 pixel 遊戲風格 */
+
+.mail-container {
+  font-family: 'Press Start 2P', cursive;
+  background-color: #000;
+  color: #fff;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  border: 5px solid #fff;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.mail-container h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #ffcc00;
+}
+
+.mail-container p {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.mail-container input[type="file"] {
+  margin-top: 1rem;
+  color: white;
+}
+
+.mail-container img {
+  max-width: 300px;
+  border: 3px solid #fff;
+  margin-top: 1rem;
+  border-radius: 5px;
+}
+
+.mail-container button {
+  background-color: #111;
+  color: #fff;
+  font-size: 1rem;
+  padding: 10px 15px;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 1rem;
+}
+
+.mail-container button:hover {
+  background-color: #ff981f;
+  color: #000;
+  transform: scale(1.05);
+}
+
+.mail-container button:disabled {
+  background-color: #444;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.mail-response {
+  margin-top: 1.5rem;
+  background: #1e1e1e;
+  padding: 1rem;
+  border-radius: 8px;
+  color: #d9d9d9;
+  font-size: 1rem;
+  font-family: "Noto Sans TC", sans-serif;
+  line-height: 1.6;
+}
+
+.mail-response h4 {
+  color: #ffcc00;
+  margin-bottom: 0.5rem;
+}
+

@@ -8,6 +8,7 @@ import Ranking from './pages/ranking';
 import GameEn from './pages/gameen';
 import GameCh from './pages/gamech';
 import WritingCh from './pages/writingch';
+import MailPage from './pages/MailPage';
 
 // 假設登出 API 的函數
 const logout = (username) => {
@@ -33,6 +34,8 @@ function App() {
         <Route path="/gamech" element={<PageWithNavbar><GameCh /></PageWithNavbar>} />
         <Route path="/writingch" element={<PageWithNavbar><WritingCh /></PageWithNavbar>} />
         <Route path="/ranking" element={<PageWithNavbar><Ranking /></PageWithNavbar>} />
+        <Route path="/MailPage" element={<PageWithNavbar><MailPage/></PageWithNavbar>} />
+       
       </Routes>
     </Router>
   );
@@ -61,7 +64,7 @@ const PageWithNavbar = ({ children }) => {
   return (
     <div>
       {/* 只有在 /home、/game、/ranking、/writingch 顯示 Navbar */}
-      {(location.pathname === '/home' || location.pathname === '/gameen' || location.pathname === '/ranking' || location.pathname === '/gamech' || location.pathname === '/writingch') && <Navbar />}
+      {(location.pathname === '/home' || location.pathname === '/gameen' || location.pathname === '/ranking' || location.pathname === '/gamech' || location.pathname === '/writingch' || location.pathname === '/MailPage') && <Navbar />}
       {children}
     </div>
   );
