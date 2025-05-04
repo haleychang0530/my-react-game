@@ -25,42 +25,10 @@ from gemini_utils import get_gemini_response_from_image, get_gemini_response_mai
 def ignore():
     return '', 204  # No Content
 
+
+
 @app.route("/api/recognize", methods=["POST"])
 def recognize():
-    
-    data = request.get_json()
-    image_b64 = data.get("image")
-    ans = data.get("ans")
-    logging.info("已拿到圖片\nans = %s\n", ans)
-    if not image_b64:
-        logging.info("沒有圖片info")
-        logging.error("沒有圖片error")
-        response = jsonify({"error": "No image"})
-        response.status_code = 400
-        return response
-
-    # 解 base64，轉成圖片
-    image_data = base64.b64decode(image_b64)
-    image = Image.open(io.BytesIO(image_data))
-
-    # 儲存圖片
-    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    file_path = os.path.join(UPLOAD_DIR, f"letter-{timestamp}.png")
-    image.save(file_path)
-    print(f"✅ 圖片儲存成功：{file_path}")
-
-    # 傳給 Gemini（你自己寫的）
-    try:
-        response_str = get_gemini_response_from_image(ans, image)
-    except Exception as e:
-        return jsonify({"error": f"Gemini 錯誤：{str(e)}"}), 500
-    
-    print("📦 這是 Gemini 回傳的 raw 字串：\n", response_str)
-    return jsonify({"text": response_str})
-
-
-@app.route("/api/recognize/ch", methods=["POST"])
-def recognize_ch():
     data = request.get_json()
     image_b64 = data.get("image")
     ans = data.get("ans")
